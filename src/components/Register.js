@@ -11,12 +11,15 @@ const Register = () => {
   const handleRegister = e => {
     e.preventDefault();
 
-    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
+    const name = document.getElementById('name').value;
+    const surname = document.getElementById('surname').value;
+    const permission = 'user';
 
     const id = Math.floor(Math.random() * 100000);
-    const newUser = { id, username, password };
+    const newUser = { id, email, password, name, surname, permission };
 
     if (password === confirmPassword) {
       setUsers([...users, newUser]);
@@ -31,9 +34,17 @@ const Register = () => {
     <>
       <h1>Register</h1>
       <Form onSubmit={handleRegister}>
-        <Form.Group className="my-3" controlId="username">
-          <Form.Label>Username</Form.Label>
-          <Form.Control type="text" placeholder="Pick a username" required />
+      <Form.Group className="my-3" controlId="name">
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text" placeholder="Enter your name" required />
+        </Form.Group>
+        <Form.Group className="my-3" controlId="surname">
+          <Form.Label>Surname</Form.Label>
+          <Form.Control type="text" placeholder="Enter your surname" required />
+        </Form.Group>
+        <Form.Group className="my-3" controlId="email">
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="email" placeholder="Enter your e-mail" required />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>

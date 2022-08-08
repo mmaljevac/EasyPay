@@ -15,15 +15,11 @@ const Update = () => {
     if (
       curUser &&
       card.cardNumber &&
-      card.cardHolderName &&
-      card.cardHolderSurname &&
       card.expirationDate &&
       card.cvv &&
       card.balance
     ) {
       document.getElementById('cardNumber').value = card.cardNumber;
-      document.getElementById('cardHolderName').value = card.cardHolderName;
-      document.getElementById('cardHolderSurname').value = card.cardHolderSurname;
       document.getElementById('expirationDate').value = card.expirationDate;
       document.getElementById('cvv').value = card.cvv;
       document.getElementById('balance').value = card.balance;
@@ -31,8 +27,6 @@ const Update = () => {
   }, [
     curUser,
     card.cardNumber,
-    card.cardHolderName,
-    card.cardHolderSurname,
     card.expirationDate,
     card.cvv,
     card.balance,
@@ -45,12 +39,10 @@ const Update = () => {
       if (c.id === Number(id)) {
         return {
           id: Number(id),
+          cardHolderId: card.cardHolderId,
           cardNumber: document.getElementById('cardNumber').value,
-          cardHolderName: document.getElementById('cardHolderName').value,
-          cardHolderSurname: document.getElementById('cardHolderSurname').value,
           expirationDate: document.getElementById('expirationDate').value,
           cvv: document.getElementById('cvv').value,
-          pin: card.pin,
           balance: document.getElementById('balance').value,
         };
       } else return c;

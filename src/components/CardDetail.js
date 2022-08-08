@@ -1,14 +1,14 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
 import CardItem from './CardItem';
 
 const CardDetail = () => {
-  const { curUser, cards, setCards } = useContext(AppContext);
+  const { users, curUser, cards, setCards } = useContext(AppContext);
   const { id } = useParams();
   const card = cards.find(c => c.id === Number(id));
-  const [showPin, setShowPin] = useState(false);
+  const cardHolder = users.find(u => u.id === card.cardHolderId);
   const navigate = useNavigate();
 
   const handleDelete = id => {
@@ -28,7 +28,7 @@ const CardDetail = () => {
       <ButtonComponent onClick={() => navigate('/')} size="sm" className="mb-2" color="transparent">
         &lt; Back
       </ButtonComponent>
-      <h1>{card.cardHolderName}'s card</h1>
+      <h1>{cardHolder.name}'s card</h1>
       <CardItem card={card} hide={false} />
       <section className="mt-3">
         <div>
@@ -37,7 +37,7 @@ const CardDetail = () => {
         </div>
         <div>
           <b>Card holder: </b>
-          {card.cardHolderName} {card.cardHolderSurname}
+          {cardHolder.name} {cardHolder.surname}
         </div>
         <div>
           <b>Expiration date: </b>
@@ -47,19 +47,6 @@ const CardDetail = () => {
           <b>CVV: </b>
           {card.cvv}
         </div>
-        {showPin ? (
-          <div id="pin">
-            <b>PIN: </b>
-            {card.pin}
-          </div>
-        ) : (
-          <div id="pin">
-            <b>PIN: </b>****
-          </div>
-        )}
-        <ButtonComponent size="sm" onClick={() => setShowPin(!showPin)}>
-          Toggle PIN
-        </ButtonComponent>
         <div>
           <b>Balance: </b>
           {balanceFormatter.format(card.balance)}

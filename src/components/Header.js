@@ -27,7 +27,7 @@ const Header = () => {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse>
               <Nav className="me-auto" />
-              <Nav.Link disabled>Hello, {curUser}!</Nav.Link>
+              <Nav.Link disabled>Hello, {curUser.name}!</Nav.Link>
               <Nav.Link onClick={handleLogout} className="text-dark">
                 Logout
               </Nav.Link>

@@ -10,13 +10,13 @@ const Login = () => {
 
   const handleLogin = e => {
     e.preventDefault();
-    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    const userFound = users.find(u => u.username === username && u.password === password);
+    const userFound = users.find(u => u.email === email && u.password === password);
 
     if (userFound) {
-      setCurUser(username);
+      setCurUser(userFound);
       navigate('/');
     } else {
       alert('Invalid login info!');
@@ -27,8 +27,8 @@ const Login = () => {
     <Container style={{ width: '300px', textAlign: 'center' }}>
       <h1>Welcome!</h1>
       <Form onSubmit={handleLogin}>
-        <Form.Group className="my-3" controlId="username">
-          <Form.Label>Username</Form.Label>
+        <Form.Group className="my-3" controlId="email">
+          <Form.Label>Email</Form.Label>
           <Form.Control type="text" required />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">

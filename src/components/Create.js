@@ -11,32 +11,24 @@ const Create = () => {
   const handleCreate = e => {
     e.preventDefault();
 
+    const cardHolderId = curUser.id;
     const cardNumber = document.getElementById('cardNumber').value;
-    const cardHolderName = document.getElementById('cardHolderName').value;
-    const cardHolderSurname = document.getElementById('cardHolderSurname').value;
     const expirationDate = document.getElementById('expirationDate').value;
     const cvv = document.getElementById('cvv').value;
     const balance = document.getElementById('balance').value;
 
-    let pin = '';
-    for (let i = 0; i < 4; i++) {
-      pin += Math.floor(Math.random() * 10);
-    }
     const id = Math.floor(Math.random() * 100000);
 
     const newCard = {
       id,
+      cardHolderId,
       cardNumber,
-      cardHolderName,
-      cardHolderSurname,
       expirationDate,
       cvv,
       balance,
-      pin,
     };
 
     setCards([...cards, newCard]);
-    alert('New card added! Your PIN is ' + pin + '.');
     navigate('/');
   };
 

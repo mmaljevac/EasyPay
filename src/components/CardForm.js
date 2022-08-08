@@ -31,14 +31,6 @@ const CardForm = ({ handle, submitText }) => {
             You don't have to input spaces, it will format automatically.
           </Form.Text>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="cardHolderName">
-          <Form.Label>Name</Form.Label>
-          <Form.Control type="text" placeholder="ex. John" required />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="cardHolderSurname">
-          <Form.Label>Surname</Form.Label>
-          <Form.Control type="text" placeholder="ex. Smith" required />
-        </Form.Group>
         <Form.Group className="mb-3" controlId="expirationDate">
           <Form.Label>Expiration Date</Form.Label>
           <Form.Control
