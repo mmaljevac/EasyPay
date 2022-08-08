@@ -1,0 +1,133 @@
+@import './variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: $fontMain;
+}
+
+body {
+  position: relative;
+  padding-bottom: $footerHeight;
+  min-height: 100vh;
+  background-color: $background !important;
+}
+
+h1 {
+  font-family: $fontTitle;
+  color: $black;
+  padding: 10px 0;
+  cursor: default;
+}
+
+nav {
+  z-index: 10;
+  position: sticky !important;
+  top: 0;
+  background-color: rgba($color: white, $alpha: 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba($color: $lightBlue, $alpha: 0.2);
+  div {
+    div {
+      font-size: 16px;
+      color: $black;
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+  a {
+    padding: 5px 10px;
+    transition: all 0.1s;
+    &:hover {
+      opacity: 0.9;
+    }
+    &:active {
+      opacity: 1;
+    }
+  }
+  img {
+    height: 30px;
+  }
+  button {
+    border: none !important;
+  }
+}
+
+#button {
+  @include buttonStyle($black, $lightBlack, white);
+}
+#red {
+  @include buttonStyle($red, $lightRed, white);
+}
+#blue {
+  @include buttonStyle($blue, $lightBlue, white);
+}
+#transparent {
+  @include buttonStyle(rgba(255,255,255,0), $whiteHover, $black);
+}
+
+.card-list {
+  text-decoration: none;
+  margin: 15px 0;
+}
+
+.card-item {
+  @include cardStyle($blue, $lightBlue, $red, $lightRed);
+}
+.expiring {
+  @include cardStyle($black, $lightBlack, $red, $lightRed);
+}
+.expired {
+  @include cardStyle($lightBlack, $lightBlack, $black, $lightBlack);
+}
+
+.appear {
+  animation-name: appear;
+  animation-duration: 0.5s;
+}
+@keyframes appear {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+section {
+  div {
+    color: $black;
+    font-size: 17px;
+    padding: 5px 0;
+    cursor: default;
+  }
+}
+
+#pin {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.content {
+  margin-top: 25px;
+  margin-bottom: 40px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  color: $lightBlack;
+  padding: 15px 0;
+  width: 100%;
+  text-align: center;
+  background-color: rgba($color: white, $alpha: 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba($color: $lightBlue, $alpha: 0.2);
+  cursor: default;
+  transition: all 0.5s;
+  &:hover {
+    letter-spacing: 0.5px;
+  }
+}

@@ -1,0 +1,57 @@
+// FONTS
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+$fontMain: 'PT Sans', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+$fontTitle: 'Josefin Sans', sans-serif;
+
+// VALUES
+$footerHeight: 54px;
+
+// COLORS
+$background: #f6faff;
+$blue: #2a74e1;
+$lightBlue: #4b87e0;
+$black: #393e44;
+$lightBlack: #55585c;
+$red: #dd4343;
+$lightRed: #dd6262;
+$whiteHover: rgba(0, 0, 0, 0.05);
+
+// MIXINS
+@mixin buttonStyle($main, $hover, $textColor) {
+  color: $textColor;
+  background-color: $main;
+  border: none;
+  transition: all 0.1s;
+  &:hover {
+    background-color: $hover;
+  }
+  &:focus,
+  &:active:focus {
+    box-shadow: 0 6px 10px -3px rgba($color: $main, $alpha: 0.5);
+  }
+  &:active {
+    transform: scale(0.97);
+    background-color: $main;
+  }
+}
+
+@mixin cardStyle($primary, $primary2, $secondary, $secondary2) {
+  font-size: 20px;
+  color: white;
+  background: linear-gradient(to bottom left, $primary, $secondary);
+  border-radius: 10px;
+  padding: 25px;
+  width: 300px;
+  user-select: none;
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(to bottom left, $primary2, $secondary);
+    box-shadow: 0 8px 20px -10px rgba($color: $secondary, $alpha: 0.8);
+  }
+  &:active {
+    transform: translateY(0);
+    background: linear-gradient(to bottom left, $primary2, $secondary2);
+  }
+}
