@@ -3,17 +3,23 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
 import CardItem from './CardItem';
+import { db } from '../firebase';
+import { deleteDoc, doc } from 'firebase/firestore';
 
 const CardDetail = () => {
-  const { users, curUser, cards, setCards } = useContext(AppContext);
+  const { users, curUser, cards } = useContext(AppContext);
   const { id } = useParams();
-  const card = cards.find(c => c.id === Number(id));
+  const card = cards.find(c => c.id === id);
   const cardHolder = users.find(u => u.id === card.cardHolderId);
   const navigate = useNavigate();
 
-  const handleDelete = id => {
+  const handleDelete = async e => {
+    e.preventDefault();
+
     if (window.confirm('Are you sure you want to delete this card?')) {
-      setCards(cards.filter(c => c.id !== Number(id)));
+      // setCards(cards.filter(c => c.id !== id));
+      const cardDoc = doc(db, 'cards', id);
+      await deleteDoc(cardDoc);
       navigate('/');
     }
   };
@@ -59,7 +65,7 @@ const CardDetail = () => {
       >
         Edit
       </ButtonComponent>
-      <ButtonComponent onClick={() => handleDelete(id)} color={'red'} className="mt-3">
+      <ButtonComponent onClick={handleDelete} color={'red'} className="mt-3">
         Delete
       </ButtonComponent>
     </>

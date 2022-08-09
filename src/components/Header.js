@@ -22,7 +22,7 @@ const Header = () => {
             <div style={{ fontWeight: 'bold' }}>Card App</div>
           </Link>
         </Navbar.Brand>
-        {curUser && (
+        {curUser ? (
           <>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse>
@@ -33,6 +33,10 @@ const Header = () => {
               </Nav.Link>
             </Navbar.Collapse>
           </>
+        ) : (
+          <Nav.Link onClick={handleLogout} className="text-dark">
+            Login
+          </Nav.Link>
         )}
       </Container>
     </Navbar>

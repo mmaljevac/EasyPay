@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useContext } from 'react';
 import { Container, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,10 +9,11 @@ const Login = () => {
   const { users, setCurUser } = useContext(AppContext);
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleLogin = e => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
 
     const userFound = users.find(u => u.email === email && u.password === password);
 
@@ -29,11 +31,11 @@ const Login = () => {
       <Form onSubmit={handleLogin}>
         <Form.Group className="my-3" controlId="email">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="text" required />
+          <Form.Control type="text" onChange={e => setEmail(e.target.value)} required />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" required />
+          <Form.Control type="password" onChange={e => setPassword(e.target.value)} required />
         </Form.Group>
         <ButtonComponent type="submit" className="w-100 mb-2">
           Login

@@ -3,11 +3,13 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
 import CardForm from './CardForm';
+import { updateDoc, doc } from 'firebase/firestore';
+import {db} from '../firebase'
 
 const Update = () => {
   const { id } = useParams();
-  const { curUser, cards, setCards } = useContext(AppContext);
-  const card = cards.find(c => c.id === Number(id));
+  const { curUser, cards } = useContext(AppContext);
+  const card = cards.find(c => c.id === id);
 
   const navigate = useNavigate();
 
@@ -32,23 +34,33 @@ const Update = () => {
     card.balance,
   ]);
 
-  const handleUpdate = e => {
+  const handleUpdate = async e => {
     e.preventDefault();
 
-    let newCards = cards.map(c => {
-      if (c.id === Number(id)) {
-        return {
-          id: Number(id),
-          cardHolderId: card.cardHolderId,
-          cardNumber: document.getElementById('cardNumber').value,
-          expirationDate: document.getElementById('expirationDate').value,
-          cvv: document.getElementById('cvv').value,
-          balance: document.getElementById('balance').value,
-        };
-      } else return c;
-    });
+    // let newCards = cards.map(c => {
+    //   if (c.id === id) {
+    //     return {
+    //       id: id,
+    //       cardHolderId: card.cardHolderId,
+    //       cardNumber: document.getElementById('cardNumber').value,
+    //       expirationDate: document.getElementById('expirationDate').value,
+    //       cvv: document.getElementById('cvv').value,
+    //       balance: document.getElementById('balance').value,
+    //     };
+    //   } else return c;
+    // });
 
-    setCards(newCards);
+    // setCards(newCards);
+
+    const updatedCardFields = {
+      cardNumber: document.getElementById('cardNumber').value,
+      expirationDate: document.getElementById('expirationDate').value,
+      cvv: document.getElementById('cvv').value,
+      balance: document.getElementById('balance').value,
+    }
+
+    const cardDoc = doc(db, 'cards', id);
+    await updateDoc(cardDoc, updatedCardFields);
 
     const button = document.getElementsByClassName('submit')[0];
     button.innerHTML = '✓ Done';
