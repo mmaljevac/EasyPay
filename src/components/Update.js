@@ -8,7 +8,7 @@ import {db} from '../firebase'
 
 const Update = () => {
   const { id } = useParams();
-  const { curUser, cards } = useContext(AppContext);
+  const { curUser, cards, setUpdated } = useContext(AppContext);
   const card = cards.find(c => c.id === id);
 
   const navigate = useNavigate();
@@ -61,14 +61,13 @@ const Update = () => {
 
     const cardDoc = doc(db, 'cards', id);
     await updateDoc(cardDoc, updatedCardFields);
+    setUpdated(Math.random());
 
-    const button = document.getElementsByClassName('submit')[0];
-    button.innerHTML = '✓ Done';
-    button.setAttribute('disabled', true);
+    // const button = document.getElementsByClassName('submit')[0];
+    // button.innerHTML = '✓ Done';
+    // button.setAttribute('disabled', true);
 
-    setTimeout(() => {
-      navigate(`/card/${id}`);
-    }, 1000);
+    navigate(`/card/${id}`);
   };
 
   return curUser ? (

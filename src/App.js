@@ -17,11 +17,12 @@ import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
 function App() {
+  const usersCollectionRef = collection(db, 'users');
+  const cardsCollectionRef = collection(db, 'cards');
   const [curUser, setCurUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [cards, setCards] = useState([]);
-  const usersCollectionRef = collection(db, 'users');
-  const cardsCollectionRef = collection(db, 'cards');
+  const [updated, setUpdated] = useState(0);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -38,8 +39,14 @@ function App() {
 
     // setCurUser(users.find(u => u.id === localStorage.getItem('curUser')));
 
-    console.log(users);
     console.log(cards);
+  }, [updated]);
+
+  useEffect(() => {
+    setCurUser(users.find(u => u.id === localStorage.getItem('curUser')));
+    console.log(users);
+    console.log(localStorage.getItem('curUser'));
+    console.log(curUser);
   }, []);
 
   return (
@@ -54,6 +61,7 @@ function App() {
           setCards,
           usersCollectionRef,
           cardsCollectionRef,
+          setUpdated,
         }}
       >
         <Header />

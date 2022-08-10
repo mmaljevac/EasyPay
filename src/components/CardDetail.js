@@ -7,7 +7,7 @@ import { db } from '../firebase';
 import { deleteDoc, doc } from 'firebase/firestore';
 
 const CardDetail = () => {
-  const { users, curUser, cards } = useContext(AppContext);
+  const { users, curUser, cards, setUpdated } = useContext(AppContext);
   const { id } = useParams();
   const card = cards.find(c => c.id === id);
   const cardHolder = users.find(u => u.id === card.cardHolderId);
@@ -20,6 +20,7 @@ const CardDetail = () => {
       // setCards(cards.filter(c => c.id !== id));
       const cardDoc = doc(db, 'cards', id);
       await deleteDoc(cardDoc);
+      setUpdated(Math.random());
       navigate('/');
     }
   };

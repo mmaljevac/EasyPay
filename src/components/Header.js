@@ -5,12 +5,13 @@ import { AppContext } from '../contexts/AppContext';
 import logo from '../img/logo.png';
 
 const Header = () => {
-  const { curUser, setCurUser } = useContext(AppContext);
+  const { curUser, setCurUser, setUpdated } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setCurUser(null);
-    // localStorage.removeItem('curUser');
+    localStorage.removeItem('curUser');
+    setUpdated(Math.random());
     navigate('/login');
   };
 

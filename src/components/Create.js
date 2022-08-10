@@ -6,7 +6,7 @@ import CardForm from './CardForm';
 import { addDoc } from 'firebase/firestore';
 
 const Create = () => {
-  const { curUser, cardsCollectionRef } = useContext(AppContext);
+  const { curUser, cardsCollectionRef, setUpdated } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleCreate = async e => {
@@ -16,7 +16,7 @@ const Create = () => {
     const cardNumber = document.getElementById('cardNumber').value;
     const expirationDate = document.getElementById('expirationDate').value;
     const cvv = document.getElementById('cvv').value;
-    const balance = document.getElementById('balance').value;
+    const balance = Number(document.getElementById('balance').value);
 
     const newCard = {
       cardHolderId,
@@ -27,6 +27,7 @@ const Create = () => {
     };
 
     await addDoc(cardsCollectionRef, newCard);
+    setUpdated(Math.random());
     navigate('/');
   };
 
