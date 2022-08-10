@@ -5,13 +5,13 @@ import { AppContext } from '../contexts/AppContext';
 import logo from '../img/logo.png';
 
 const Header = () => {
-  const { curUser, setCurUser, setUpdated } = useContext(AppContext);
+  const { curUser, setCurUser, getUsers } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setCurUser(null);
-    localStorage.removeItem('curUser');
-    setUpdated(Math.random());
+    sessionStorage.removeItem('curUser');
+    getUsers();
     navigate('/login');
   };
 
@@ -30,6 +30,12 @@ const Header = () => {
             <Navbar.Collapse>
               <Nav className="me-auto" />
               <Nav.Link disabled>Hello, {curUser.name}!</Nav.Link>
+              {curUser.permission === 'admin' && (
+                <Nav.Link onClick={() => navigate('/users')} className="text-danger">
+                  Users
+                </Nav.Link>
+              )}
+
               <Nav.Link onClick={handleLogout} className="text-dark">
                 Logout
               </Nav.Link>

@@ -6,7 +6,7 @@ import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
 
 const Login = () => {
-  const { users, setCurUser, setUpdated } = useContext(AppContext);
+  const { users, setCurUser, getUsers } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -19,8 +19,8 @@ const Login = () => {
 
     if (userFound) {
       setCurUser(userFound);
-      localStorage.setItem('curUser', userFound.id);
-      setUpdated(Math.random());
+      sessionStorage.setItem('curUser', JSON.stringify(userFound));
+      getUsers();
       navigate('/');
     } else {
       alert('Invalid login info!');

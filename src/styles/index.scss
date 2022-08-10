@@ -96,6 +96,19 @@ nav {
   }
 }
 
+.update {
+  animation-name: update;
+  animation-duration: 1s;
+}
+@keyframes update {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 section {
   div {
     color: $black;

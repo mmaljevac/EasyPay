@@ -6,7 +6,7 @@ import CardForm from './CardForm';
 import { addDoc } from 'firebase/firestore';
 
 const Create = () => {
-  const { curUser, cardsCollectionRef, setUpdated } = useContext(AppContext);
+  const { curUser, cardsCollectionRef, getCards } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleCreate = async e => {
@@ -27,8 +27,15 @@ const Create = () => {
     };
 
     await addDoc(cardsCollectionRef, newCard);
-    setUpdated(Math.random());
-    navigate('/');
+    getCards();
+
+    const button = document.getElementsByClassName('submit')[0];
+    button.innerHTML = '✓ Done';
+    button.setAttribute('disabled', true);
+
+    setTimeout(() => {
+      navigate('/');
+    }, '1000');
   };
 
   return curUser ? (

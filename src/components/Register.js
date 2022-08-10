@@ -6,7 +6,7 @@ import ButtonComponent from './ButtonComponent';
 import { addDoc } from 'firebase/firestore';
 
 const Register = () => {
-  const { users, usersCollectionRef, setUpdated } = useContext(AppContext);
+  const { users, usersCollectionRef, getUsers } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -24,7 +24,7 @@ const Register = () => {
     if (password === confirmPassword) {
       if (!users.map(u => u.email).includes(email)) {
         await addDoc(usersCollectionRef, newUser);
-        setUpdated(Math.random());
+        getUsers();
         alert('User created!');
         navigate('/login');
       } else {

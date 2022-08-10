@@ -15,38 +15,28 @@ import Footer from './components/Footer';
 import { Col, Row } from 'react-bootstrap';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import Users from './components/Users';
 
 function App() {
   const usersCollectionRef = collection(db, 'users');
   const cardsCollectionRef = collection(db, 'cards');
-  const [curUser, setCurUser] = useState(null);
+  const [curUser, setCurUser] = useState(JSON.parse(sessionStorage.getItem('curUser')));
   const [users, setUsers] = useState([]);
   const [cards, setCards] = useState([]);
-  const [updated, setUpdated] = useState(0);
+
+  const getUsers = async () => {
+    const usersData = await getDocs(usersCollectionRef);
+    setUsers(usersData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+  };
+
+  const getCards = async () => {
+    const cardsData = await getDocs(cardsCollectionRef);
+    setCards(cardsData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+  };
 
   useEffect(() => {
-    const getUsers = async () => {
-      const usersData = await getDocs(usersCollectionRef);
-      setUsers(usersData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-    };
     getUsers();
-
-    const getCards = async () => {
-      const cardsData = await getDocs(cardsCollectionRef);
-      setCards(cardsData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-    };
     getCards();
-
-    // setCurUser(users.find(u => u.id === localStorage.getItem('curUser')));
-
-    console.log(cards);
-  }, [updated]);
-
-  useEffect(() => {
-    setCurUser(users.find(u => u.id === localStorage.getItem('curUser')));
-    console.log(users);
-    console.log(localStorage.getItem('curUser'));
-    console.log(curUser);
   }, []);
 
   return (
@@ -61,7 +51,8 @@ function App() {
           setCards,
           usersCollectionRef,
           cardsCollectionRef,
-          setUpdated,
+          getUsers,
+          getCards,
         }}
       >
         <Header />
@@ -75,6 +66,7 @@ function App() {
                 <Route path="/card/:id" element={<CardDetail />}></Route>
                 <Route path="/create" element={<Create />}></Route>
                 <Route path="/update/:id" element={<Update />}></Route>
+                <Route path="/users" element={<Users />}></Route>
                 <Route path="*" element={<NotFound />}></Route>
               </Routes>
             </Col>

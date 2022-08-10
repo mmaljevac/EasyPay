@@ -7,7 +7,7 @@ import { db } from '../firebase';
 import { deleteDoc, doc } from 'firebase/firestore';
 
 const CardDetail = () => {
-  const { users, curUser, cards, setUpdated } = useContext(AppContext);
+  const { users, curUser, cards, getCards } = useContext(AppContext);
   const { id } = useParams();
   const card = cards.find(c => c.id === id);
   const cardHolder = users.find(u => u.id === card.cardHolderId);
@@ -17,10 +17,9 @@ const CardDetail = () => {
     e.preventDefault();
 
     if (window.confirm('Are you sure you want to delete this card?')) {
-      // setCards(cards.filter(c => c.id !== id));
       const cardDoc = doc(db, 'cards', id);
       await deleteDoc(cardDoc);
-      setUpdated(Math.random());
+      getCards();
       navigate('/');
     }
   };
@@ -30,14 +29,14 @@ const CardDetail = () => {
     currency: 'HRK',
   });
 
-  return curUser ? (
+  return curUser && cardHolder ? (
     <>
       <ButtonComponent onClick={() => navigate('/')} size="sm" className="mb-2" color="transparent">
         &lt; Back
       </ButtonComponent>
       <h1>{cardHolder.name}'s card</h1>
       <CardItem card={card} hide={false} />
-      <section className="mt-3">
+      <section className="mt-3 appear">
         <div>
           <b>Card number: </b>
           {card.cardNumber}
@@ -62,11 +61,11 @@ const CardDetail = () => {
       <ButtonComponent
         onClick={() => navigate(`/update/${id}`)}
         color={'blue'}
-        className="mt-3 me-3"
+        className="mt-3 me-3 appear"
       >
         Edit
       </ButtonComponent>
-      <ButtonComponent onClick={handleDelete} color={'red'} className="mt-3">
+      <ButtonComponent onClick={handleDelete} color={'red'} className="mt-3 appear">
         Delete
       </ButtonComponent>
     </>
