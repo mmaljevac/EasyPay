@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -13,74 +13,57 @@ import { AppContext } from './contexts/AppContext';
 import Register from './components/Register';
 import Footer from './components/Footer';
 import { Col, Row } from 'react-bootstrap';
+import { db } from './firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 function App() {
+  const usersCollectionRef = collection(db, 'users');
+  const cardsCollectionRef = collection(db, 'cards');
   const [curUser, setCurUser] = useState(null);
-  const [users, setUsers] = useState([
-    {
-      id: 0,
-      email: 'admin@tvz.hr',
-      password: 'admin123',
-      name: 'Admin',
-      surname: '',
-      permission: 'admin',
-    },
-    {
-      id: 1,
-      email: 'mmaljevac@tvz.hr',
-      password: 'matija123',
-      name: 'Matija',
-      surname: 'Maljevac',
-      permission: 'user',
-    },
-    {
-      id: 2,
-      email: 'pperic@tvz.hr',
-      password: 'pero123',
-      name: 'Pero',
-      surname: 'Peric',
-      permission: 'user',
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [updated, setUpdated] = useState(0);
 
-  const [cards, setCards] = useState([
-    {
-      id: 0,
-      cardHolderId: 1,
-      cardNumber: '1234 5678 9876 5432',
-      expirationDate: '05/27',
-      cvv: '123',
-      balance: 1234.56,
-    },
-    {
-      id: 1,
-      cardHolderId: 2,
-      cardNumber: '5729 5726 1562 3408',
-      expirationDate: '02/24',
-      cvv: '261',
-      balance: 3953.85,
-    },
-    {
-      id: 2,
-      cardHolderId: 1,
-      cardNumber: '4937 4927 6274 4802',
-      expirationDate: '09/22',
-      cvv: '538',
-      balance: 7495.24,
-    },
-    {
-      id: 3,
-      cardHolderId: 1,
-      cardNumber: '5729 7592 7264 9852',
-      expirationDate: '03/22',
-      cvv: '262',
-      balance: 125.37,
-    },
-  ]);
+  useEffect(() => {
+    const getUsers = async () => {
+      const usersData = await getDocs(usersCollectionRef);
+      setUsers(usersData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    };
+    getUsers();
+
+    const getCards = async () => {
+      const cardsData = await getDocs(cardsCollectionRef);
+      setCards(cardsData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    };
+    getCards();
+
+    // setCurUser(users.find(u => u.id === localStorage.getItem('curUser')));
+
+    console.log(cards);
+  }, [updated]);
+
+  useEffect(() => {
+    setCurUser(users.find(u => u.id === localStorage.getItem('curUser')));
+    console.log(users);
+    console.log(localStorage.getItem('curUser'));
+    console.log(curUser);
+  }, []);
 
   return (
     <Router>
-      <AppContext.Provider value={{ curUser, setCurUser, users, setUsers, cards, setCards }}>
+      <AppContext.Provider
+        value={{
+          curUser,
+          setCurUser,
+          users,
+          setUsers,
+          cards,
+          setCards,
+          usersCollectionRef,
+          cardsCollectionRef,
+          setUpdated,
+        }}
+      >
         <Header />
         <Container className="content">
           <Row className="justify-content-md-center">

@@ -19,14 +19,21 @@ const Home = () => {
 
   return curUser ? (
     <Container className="d-flex flex-column align-items-center">
-      {cardsFiltered.length > 0 ? <h1>Card List</h1> : <h1>Add a card!</h1>}
-      {cardsFiltered.map(card => {
-        return (
-          <Link to={`/card/${card.id}`} key={card.id} className="card-list">
-            <CardItem card={card} hide={true} />
-          </Link>
-        );
-      })}
+      {cardsFiltered.length > 0 ? (
+        <>
+          <h1>Card List</h1>
+          {cardsFiltered.map(card => {
+            return (
+              <Link to={`/card/${card.id}`} key={card.id} className="card-list">
+                <CardItem card={card} hide={true} />
+              </Link>
+            );
+          })}
+        </>
+      ) : (
+        <h1>Add a card!</h1>
+      )}
+
       <ButtonComponent onClick={() => navigate('/create')} className="appear">
         + Add
       </ButtonComponent>

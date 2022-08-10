@@ -5,11 +5,13 @@ import { AppContext } from '../contexts/AppContext';
 import logo from '../img/logo.png';
 
 const Header = () => {
-  const { curUser, setCurUser } = useContext(AppContext);
+  const { curUser, setCurUser, setUpdated } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setCurUser(null);
+    localStorage.removeItem('curUser');
+    setUpdated(Math.random());
     navigate('/login');
   };
 
@@ -22,7 +24,7 @@ const Header = () => {
             <div style={{ fontWeight: 'bold' }}>Card App</div>
           </Link>
         </Navbar.Brand>
-        {curUser && (
+        {curUser ? (
           <>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse>
@@ -33,6 +35,10 @@ const Header = () => {
               </Nav.Link>
             </Navbar.Collapse>
           </>
+        ) : (
+          <Nav.Link onClick={handleLogout} className="text-dark">
+            Login
+          </Nav.Link>
         )}
       </Container>
     </Navbar>

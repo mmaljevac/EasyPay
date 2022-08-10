@@ -3,24 +3,22 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
 import CardForm from './CardForm';
+import { addDoc } from 'firebase/firestore';
 
 const Create = () => {
-  const { curUser, cards, setCards } = useContext(AppContext);
+  const { curUser, cardsCollectionRef, setUpdated } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const handleCreate = e => {
+  const handleCreate = async e => {
     e.preventDefault();
 
     const cardHolderId = curUser.id;
     const cardNumber = document.getElementById('cardNumber').value;
     const expirationDate = document.getElementById('expirationDate').value;
     const cvv = document.getElementById('cvv').value;
-    const balance = document.getElementById('balance').value;
-
-    const id = Math.floor(Math.random() * 100000);
+    const balance = Number(document.getElementById('balance').value);
 
     const newCard = {
-      id,
       cardHolderId,
       cardNumber,
       expirationDate,
@@ -28,7 +26,8 @@ const Create = () => {
       balance,
     };
 
-    setCards([...cards, newCard]);
+    await addDoc(cardsCollectionRef, newCard);
+    setUpdated(Math.random());
     navigate('/');
   };
 
