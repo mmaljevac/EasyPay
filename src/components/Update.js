@@ -56,7 +56,7 @@ const Update = () => {
       cardNumber: document.getElementById('cardNumber').value,
       expirationDate: document.getElementById('expirationDate').value,
       cvv: document.getElementById('cvv').value,
-      balance: document.getElementById('balance').value,
+      balance: Number(document.getElementById('balance').value),
     }
 
     const cardDoc = doc(db, 'cards', id);

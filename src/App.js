@@ -29,55 +29,18 @@ function App() {
       setUsers(usersData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
     };
     getUsers();
-    console.log(users);
-  }, []);
 
-  useEffect(() => {
     const getCards = async () => {
       const cardsData = await getDocs(cardsCollectionRef);
       setCards(cardsData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
     };
     getCards();
+
+    // setCurUser(users.find(u => u.id === localStorage.getItem('curUser')));
+
+    console.log(users);
     console.log(cards);
   }, []);
-
-  // const [users, setUsers] = useState([
-  //   {
-  //     id: '2YFRogIPr6wbtj2Xhwr8',
-  //     email: 'admin@tvz.hr',
-  //     password: 'admin123',
-  //     name: 'Admin',
-  //     surname: '',
-  //     permission: 'admin',
-  //   },
-  //   {
-  //     id: 'qVh0OTyHVLfN5RgYUl4b',
-  //     email: 'mmaljevac@tvz.hr',
-  //     password: 'matija123',
-  //     name: 'Matija',
-  //     surname: 'Maljevac',
-  //     permission: 'user',
-  //   },
-  //   {
-  //     id: 'RQxnDBQhcPCQxmhazXQb',
-  //     email: 'pperic@tvz.hr',
-  //     password: 'pero123',
-  //     name: 'Pero',
-  //     surname: 'Peric',
-  //     permission: 'user',
-  //   },
-  // ]);
-
-  // const [cards, setCards] = useState([
-  //   {
-  //     id: '7XDR3PrB5mzgvRIineI5',
-  //     cardHolderId: 'qVh0OTyHVLfN5RgYUl4b',
-  //     cardNumber: '1234 5678 9876 5432',
-  //     expirationDate: '05/27',
-  //     cvv: '123',
-  //     balance: 1234.56,
-  //   },
-  // ]);
 
   return (
     <Router>

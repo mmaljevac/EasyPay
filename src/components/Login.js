@@ -19,6 +19,7 @@ const Login = () => {
 
     if (userFound) {
       setCurUser(userFound);
+      // localStorage.setItem('curUser', userFound.id);
       navigate('/');
     } else {
       alert('Invalid login info!');

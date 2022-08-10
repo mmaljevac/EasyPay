@@ -10,6 +10,7 @@ const Header = () => {
 
   const handleLogout = () => {
     setCurUser(null);
+    // localStorage.removeItem('curUser');
     navigate('/login');
   };
 
