@@ -45,7 +45,7 @@ const Update = () => {
     }, '1000');
   };
 
-  return curUser ? (
+  return curUser && card ? (
     <>
       <ButtonComponent
         onClick={() => navigate(`/card/${id}`)}
@@ -59,7 +59,7 @@ const Update = () => {
       <CardForm handle={handleUpdate} submitText="Update" />
     </>
   ) : (
-    <Navigate to={{ pathname: '/login' }} />
+    <Navigate to={{ pathname: '/' }} />
   );
 };
 

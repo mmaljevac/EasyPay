@@ -24,9 +24,9 @@ const CardDetail = () => {
     }
   };
 
-  const balanceFormatter = new Intl.NumberFormat('hr-HR', {
+  const balanceFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'HRK',
+    currency: 'EUR',
   });
 
   return curUser && cardHolder ? (
@@ -70,7 +70,7 @@ const CardDetail = () => {
       </ButtonComponent>
     </>
   ) : (
-    <Navigate to={{ pathname: '/login' }} />
+    <Navigate to={{ pathname: '/' }} />
   );
 };
 

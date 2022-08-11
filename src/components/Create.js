@@ -47,7 +47,7 @@ const Create = () => {
       <CardForm handle={handleCreate} submitText="Add" />
     </>
   ) : (
-    <Navigate to={{ pathname: '/login' }} />
+    <Navigate to={{ pathname: '/' }} />
   );
 };
 
