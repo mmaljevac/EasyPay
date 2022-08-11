@@ -1,41 +1,93 @@
-import { useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
-import CardForm from './CardForm';
 import { addDoc } from 'firebase/firestore';
+import { Form } from 'react-bootstrap';
 
 const Create = () => {
   const { curUser, cardsCollectionRef, getCards } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const handleCreate = async e => {
+  const cardNumberRef = useRef();
+  const expirationDateRef = useRef();
+  const cvvRef = useRef();
+  const balanceRef = useRef();
+
+  const cardHolderId = curUser.id;
+  const [cardNumber, setCardNumber] = useState('');
+  const [expirationDate, setExpirationDate] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [balance, setBalance] = useState('');
+  const [btnText, setBtnText] = useState('Add');
+  const [btnDisabled, setBtnDisabled] = useState(false);
+
+  const formatCardNumber = e => {
+    if ([4, 9, 14].includes(e.target.value.length) && e.key !== 'Backspace' && e.key !== ' ') {
+      e.target.value += ' ';
+    }
+    setCardNumber(e.target.value);
+  };
+
+  const formatDateInput = e => {
+    if (e.target.value.length === 2 && e.key !== 'Backspace' && e.key !== '/') {
+      e.target.value += '/';
+    }
+  };
+
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    const cardHolderId = curUser.id;
-    const cardNumber = document.getElementById('cardNumber').value;
-    const expirationDate = document.getElementById('expirationDate').value;
-    const cvv = document.getElementById('cvv').value;
-    const balance = Number(document.getElementById('balance').value);
+    let errors = false;
+    setBtnDisabled(true);
+    const month = Number(expirationDate.substring(0, 2));
 
-    const newCard = {
-      cardHolderId,
-      cardNumber,
-      expirationDate,
-      cvv,
-      balance,
-    };
+    if (!/^[0-9 ]{19}$/.test(cardNumber)) {
+      errors = true;
+      alert('Card number can contain numbers only!');
+      cardNumberRef.current.focus();
+    } else if (!/[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}/.test(cardNumber)) {
+      errors = true;
+      alert('Card number should be formatted "XXXX XXXX XXXX XXXX"!');
+      cardNumberRef.current.focus();
+    } else if (!/^[0-9/]{5}$/.test(expirationDate)) {
+      errors = true;
+      alert('Expiration date should contain numbers only!');
+      expirationDateRef.current.focus();
+    } else if (!/[0-9][0-9]\/[0-9][0-9]/.test(expirationDate)) {
+      errors = true;
+      alert('Expiration date format should be MM/YY!');
+      expirationDateRef.current.focus();
+    } else if (month > 12 || month < 1) {
+      errors = true;
+      alert(`Expiration month can't be ${month}!`);
+      expirationDateRef.current.focus();
+    } else if (!/^[0-9]{3}$/.test(cvv)) {
+      errors = true;
+      alert(`CVV should contain numbers only!`);
+      cvvRef.current.focus();
+    }
 
-    await addDoc(cardsCollectionRef, newCard);
-    getCards();
+    if (errors === false) {
+      const newCard = {
+        cardHolderId,
+        cardNumber,
+        expirationDate,
+        cvv,
+        balance,
+      };
 
-    const button = document.getElementsByClassName('submit')[0];
-    button.innerHTML = '✓ Done';
-    button.setAttribute('disabled', true);
+      await addDoc(cardsCollectionRef, newCard);
+      getCards();
 
-    setTimeout(() => {
-      navigate('/');
-    }, '1000');
+      setBtnText('✓ Done');
+      setTimeout(() => {
+        navigate('/');
+      }, '1000');
+    } else {
+      setBtnText('Add');
+      setBtnDisabled(false);
+    }
   };
 
   return curUser ? (
@@ -44,7 +96,63 @@ const Create = () => {
         &lt; Back
       </ButtonComponent>
       <h1>Add a new card</h1>
-      <CardForm handle={handleCreate} submitText="Add" />
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="cardNumber">
+          <Form.Label>Card Number</Form.Label> <br />
+          <Form.Control
+            type="text"
+            ref={cardNumberRef}
+            placeholder="ex. 1111 2222 3333 4444"
+            minLength={19}
+            maxLength={19}
+            onKeyDown={formatCardNumber}
+            onChange={e => setCardNumber(e.target.value)}
+            required
+          />
+          <Form.Text className="text-muted">
+            You don't have to input spaces, it will format automatically.
+          </Form.Text>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="expirationDate">
+          <Form.Label>Expiration Date (MM/YY)</Form.Label>
+          <Form.Control
+            type="text"
+            ref={expirationDateRef}
+            placeholder="ex. 05/22"
+            minLength={5}
+            maxLength={5}
+            onKeyDown={formatDateInput}
+            onChange={e => setExpirationDate(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="cvv">
+          <Form.Label>CVV</Form.Label>
+          <Form.Control
+            type="text"
+            ref={cvvRef}
+            placeholder="ex. 123"
+            minLength={3}
+            maxLength={3}
+            onChange={e => setCvv(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="balance">
+          <Form.Label>Balance</Form.Label>
+          <Form.Control
+            type="number"
+            ref={balanceRef}
+            step="any"
+            placeholder="ex. 1234.56"
+            onChange={e => setBalance(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <ButtonComponent type="submit" disabled={btnDisabled}>
+          {btnText}
+        </ButtonComponent>
+      </Form>
     </>
   ) : (
     <Navigate to={{ pathname: '/' }} />
