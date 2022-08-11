@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
@@ -19,6 +19,7 @@ const Register = () => {
   const handleRegister = async e => {
     e.preventDefault();
 
+    // TODO hash password
     const newUser = { email, password, name, surname, permission };
 
     if (password === confirmPassword) {
@@ -44,7 +45,7 @@ const Register = () => {
           <Form.Control
             type="text"
             placeholder="Enter your name"
-            onChange={e => setName(e.target.value)}
+            onChange={e => setName(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))}
             required
           />
         </Form.Group>
@@ -53,7 +54,7 @@ const Register = () => {
           <Form.Control
             type="text"
             placeholder="Enter your surname"
-            onChange={e => setSurname(e.target.value)}
+            onChange={e => setSurname(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))}
             required
           />
         </Form.Group>
@@ -71,6 +72,7 @@ const Register = () => {
           <Form.Control
             type="password"
             placeholder="Enter password"
+            minLength="6"
             onChange={e => setPassword(e.target.value)}
             required
           />

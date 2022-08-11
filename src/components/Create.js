@@ -144,6 +144,7 @@ const Create = () => {
             type="number"
             ref={balanceRef}
             step="any"
+            max="1000000000"
             placeholder="ex. 1234.56"
             onChange={e => setBalance(e.target.value)}
             required
