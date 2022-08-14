@@ -31,9 +31,14 @@ const Header = () => {
               <Nav className="me-auto" />
               <Nav.Link disabled>Hello, {curUser.name}!</Nav.Link>
               {curUser.permission === 'admin' && (
-                <Nav.Link onClick={() => navigate('/users')} className="text-danger">
-                  Users
-                </Nav.Link>
+                <>
+                  <Nav.Link onClick={() => navigate('/users')} className="text-danger">
+                    Users
+                  </Nav.Link>
+                  <Nav.Link onClick={() => navigate('/cards')} className="text-danger">
+                    All cards
+                  </Nav.Link>
+                </>
               )}
 
               <Nav.Link onClick={handleLogout} className="text-dark">

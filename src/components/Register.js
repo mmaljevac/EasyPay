@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
@@ -9,6 +9,9 @@ const Register = () => {
   const { users, usersCollectionRef, getUsers } = useContext(AppContext);
   const navigate = useNavigate();
 
+  const [btnText, setBtnText] = useState('Register');
+  const [btnDisabled, setBtnDisabled] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -18,6 +21,7 @@ const Register = () => {
 
   const handleRegister = async e => {
     e.preventDefault();
+    setBtnDisabled(true);
 
     // TODO hash password
     const newUser = { email, password, name, surname, permission };
@@ -26,13 +30,18 @@ const Register = () => {
       if (!users.map(u => u.email).includes(email)) {
         await addDoc(usersCollectionRef, newUser);
         getUsers();
-        alert('User created!');
-        navigate('/login');
+        
+        setBtnText('✓ User created');
+        setTimeout(() => {
+          navigate(`/login`);
+        }, '1000');
       } else {
         alert('Email address already taken!');
+        setBtnDisabled(false);
       }
     } else {
       alert('Passwords do not match!');
+      setBtnDisabled(false);
     }
   };
 
@@ -45,7 +54,9 @@ const Register = () => {
           <Form.Control
             type="text"
             placeholder="Enter your name"
-            onChange={e => setName(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))}
+            onChange={e =>
+              setName(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))
+            }
             required
           />
         </Form.Group>
@@ -54,7 +65,9 @@ const Register = () => {
           <Form.Control
             type="text"
             placeholder="Enter your surname"
-            onChange={e => setSurname(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))}
+            onChange={e =>
+              setSurname(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))
+            }
             required
           />
         </Form.Group>
@@ -86,8 +99,8 @@ const Register = () => {
             required
           />
         </Form.Group>
-        <ButtonComponent type="submit" className="w-100">
-          Register
+        <ButtonComponent type="submit" disabled={btnDisabled}>
+          {btnText}
         </ButtonComponent>
       </Form>
     </>

@@ -28,7 +28,7 @@ nav {
   background-color: rgba(255, 255, 255, 0.7);
   -webkit-backdrop-filter: blur(10px);
           backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(75, 135, 224, 0.2);
+  box-shadow: 0 0 20px rgba(75, 135, 224, 0.1);
 }
 nav div div {
   font-size: 16px;
@@ -263,13 +263,13 @@ footer {
   position: absolute;
   bottom: 0;
   color: #55585c;
-  padding: 15px 0;
+  padding: 0.7rem 0;
   width: 100%;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.7);
   -webkit-backdrop-filter: blur(10px);
           backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(75, 135, 224, 0.2);
+  box-shadow: 0 0 20px rgba(75, 135, 224, 0.1);
   cursor: default;
   transition: all 0.5s;
 }

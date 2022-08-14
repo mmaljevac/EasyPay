@@ -21,6 +21,7 @@ const Update = () => {
   const [expirationDate, setExpirationDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [balance, setBalance] = useState('');
+  
   const [btnText, setBtnText] = useState('Update');
   const [btnDisabled, setBtnDisabled] = useState(false);
 
@@ -41,7 +42,7 @@ const Update = () => {
   };
 
   const formatDateInput = e => {
-    if (e.target.value.length === 2 && e.key !== 'Backspace' && e.key !== '/') {
+    if (e.target.value.length === 2 && !e.target.value.includes('/') && e.key !== 'Backspace' && e.key !== '/') {
       e.target.value += '/';
     }
   };

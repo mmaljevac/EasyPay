@@ -16,6 +16,7 @@ import { Col, Row } from 'react-bootstrap';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import Users from './components/Users';
+import AllCards from './components/AllCards';
 
 function App() {
   const usersCollectionRef = collection(db, 'users');
@@ -67,6 +68,7 @@ function App() {
                 <Route path="/create" element={<Create />}></Route>
                 <Route path="/update/:id" element={<Update />}></Route>
                 <Route path="/users" element={<Users />}></Route>
+                <Route path="/cards" element={<AllCards />}></Route>
                 <Route path="*" element={<NotFound />}></Route>
               </Routes>
             </Col>

@@ -26,7 +26,7 @@ nav {
   top: 0;
   background-color: rgba($color: white, $alpha: 0.7);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba($color: $lightBlue, $alpha: 0.2);
+  box-shadow: 0 0 20px rgba($color: $lightBlue, $alpha: 0.1);
   div {
     div {
       font-size: 16px;
@@ -127,12 +127,12 @@ footer {
   position: absolute;
   bottom: 0;
   color: $lightBlack;
-  padding: 15px 0;
+  padding: 0.7rem 0;
   width: 100%;
   text-align: center;
   background-color: rgba($color: white, $alpha: 0.7);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba($color: $lightBlue, $alpha: 0.2);
+  box-shadow: 0 0 20px rgba($color: $lightBlue, $alpha: 0.1);
   cursor: default;
   transition: all 0.5s;
   &:hover {
