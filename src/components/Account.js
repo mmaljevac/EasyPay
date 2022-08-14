@@ -10,31 +10,50 @@ const Account = () => {
   const { curUser, setCurUser, getUsers, cards, getCards } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState(curUser.email);
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [name, setName] = useState(curUser.name);
   const [surname, setSurname] = useState(curUser.surname);
 
-  const handleUpdate = async e => {
+  const handleUpdateInfo = async e => {
     e.preventDefault();
 
-    // TODO hash password
-    const updatedUser = { email, password, name, surname };
+    const updatedUser = { name: name, surname: surname };
+    const userDoc = doc(db, 'users', curUser.id);
+    await updateDoc(userDoc, updatedUser);
+    getUsers();
 
-    if (password === confirmPassword) {
-      const userDoc = doc(db, 'users', curUser.id);
-      await updateDoc(userDoc, updatedUser);
-      getUsers();
+    alert('User info updated, please log in again!');
+    navigate(`/login`);
+  };
 
-      alert('User info updated, please log in again!');
-      navigate(`/login`);
+  const handleChangePassword = async e => {
+    e.preventDefault();
+
+    if (oldPassword === curUser.password) {
+      if (oldPassword !== newPassword) {
+        if (newPassword === confirmNewPassword) {
+          // TODO hash password
+          const updatedUser = { password: newPassword };
+          const userDoc = doc(db, 'users', curUser.id);
+          await updateDoc(userDoc, updatedUser);
+          getUsers();
+
+          alert('Password updated, please log in again!');
+          navigate(`/login`);
+        } else {
+          alert('New and confirmed passwords do not match!');
+        }
+      } else {
+        alert("New password can't be the same as the old one!");
+      }
     } else {
-      alert('Passwords do not match!');
+      alert('Wrong password!');
     }
   };
 
-  const handleDelete = async () => {
+  const handleDeleteAcc = async () => {
     if (window.confirm('Are you sure you want to delete your account and all your cards?')) {
       await cards.filter(c => c.cardHolderId === curUser.id && deleteDoc(doc(db, 'cards', c.id)));
       await deleteDoc(doc(db, 'users', curUser.id));
@@ -51,8 +70,8 @@ const Account = () => {
 
   return curUser ? (
     <>
-      <h1>Update account info</h1>
-      <Form onSubmit={handleUpdate}>
+      <h1>Update info</h1>
+      <Form onSubmit={handleUpdateInfo}>
         <Form.Group className="my-3" controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -77,40 +96,46 @@ const Account = () => {
             required
           />
         </Form.Group>
-        <Form.Group className="my-3" controlId="email">
-          <Form.Label>Email</Form.Label>
+        <ButtonComponent type="submit">Update</ButtonComponent>
+      </Form>
+      <hr />
+      <h1>Change password</h1>
+      <Form onSubmit={handleChangePassword}>
+        <Form.Group className="mb-3" controlId="password">
+          <Form.Label>Old password</Form.Label>
           <Form.Control
-            type="email"
-            defaultValue={email}
-            placeholder="Update your e-mail"
-            onChange={e => setEmail(e.target.value)}
+            type="password"
+            placeholder="Enter old password"
+            minLength="6"
+            onChange={e => setOldPassword(e.target.value)}
             required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>New password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Update password"
+            placeholder="Enter new password"
             minLength="6"
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => setNewPassword(e.target.value)}
             required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="confirmPassword">
-          <Form.Label>Confirm password</Form.Label>
+          <Form.Label>Confirm new password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Repeat password"
-            onChange={e => setConfirmPassword(e.target.value)}
+            placeholder="Repeat new password"
+            onChange={e => setConfirmNewPassword(e.target.value)}
             required
           />
         </Form.Group>
         <ButtonComponent type="submit">Update</ButtonComponent>
       </Form>
       <hr />
-      <ButtonComponent onClick={handleDelete} color="red">
-        Delete account
+      <h1>Delete account</h1>
+      <ButtonComponent onClick={handleDeleteAcc} color="red">
+        Deactivate
       </ButtonComponent>
     </>
   ) : (

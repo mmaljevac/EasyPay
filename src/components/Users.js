@@ -11,10 +11,6 @@ const Users = () => {
   const { curUser, users, cards, getUsers, getCards } = useContext(AppContext);
   const [btnDisabled, setBtnDisabled] = useState(false);
 
-  useEffect(() => {
-    users.sort((a, b) => a.surname < b.surname);
-  }, []);
-
   const handleDelete = async user => {
     if (window.confirm(`Are you sure you want to delete ${user.name} ${user.surname} and their cards?`)) {
       await cards.filter(c => c.cardHolderId === user.id && deleteDoc(doc(db, 'cards', c.id)));
