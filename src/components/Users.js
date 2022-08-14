@@ -16,7 +16,7 @@ const Users = () => {
   }, []);
 
   const handleDelete = async user => {
-    if (window.confirm(`Are you sure you want to delete ${user.name} ${user.surname}?`)) {
+    if (window.confirm(`Are you sure you want to delete ${user.name} ${user.surname} and their cards?`)) {
       await cards.filter(c => c.cardHolderId === user.id && deleteDoc(doc(db, 'cards', c.id)));
       await deleteDoc(doc(db, 'users', user.id));
       getUsers();

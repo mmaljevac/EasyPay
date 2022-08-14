@@ -13,9 +13,15 @@ const CardDetail = () => {
   const cardHolder = users.find(u => u.id === card.cardHolderId);
   const navigate = useNavigate();
 
-  const handleDelete = async e => {
-    e.preventDefault();
+  const handleBack = () => {
+    if (card.cardHolderId === curUser.id) {
+      navigate('/');
+    } else {
+      navigate('/cards');
+    }
+  };
 
+  const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this card?')) {
       const cardDoc = doc(db, 'cards', id);
       await deleteDoc(cardDoc);
@@ -31,7 +37,7 @@ const CardDetail = () => {
 
   return curUser && cardHolder ? (
     <>
-      <ButtonComponent onClick={() => navigate('/')} size="sm" className="mb-2" color="transparent">
+      <ButtonComponent onClick={handleBack} size="sm" className="mb-2" color="transparent">
         &lt; Back
       </ButtonComponent>
       <h1>{cardHolder.name}'s card</h1>

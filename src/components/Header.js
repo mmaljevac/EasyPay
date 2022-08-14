@@ -40,7 +40,9 @@ const Header = () => {
                   </Nav.Link>
                 </>
               )}
-
+              <Nav.Link onClick={() => navigate('/account')} className="text-dark">
+                Account
+              </Nav.Link>
               <Nav.Link onClick={handleLogout} className="text-dark">
                 Logout
               </Nav.Link>
