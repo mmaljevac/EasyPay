@@ -2,7 +2,7 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
-import { updateDoc, doc } from 'firebase/firestore';
+import { updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Form } from 'react-bootstrap';
 
@@ -117,6 +117,15 @@ const Update = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this card?')) {
+      const cardDoc = doc(db, 'cards', id);
+      await deleteDoc(cardDoc);
+      getCards();
+      navigate('/');
+    }
+  }
+
   return curUser ? (
     <>
       <ButtonComponent
@@ -190,6 +199,11 @@ const Update = () => {
           {btnText}
         </ButtonComponent>
       </Form>
+      <hr />
+      <h1>Delete card</h1>
+      <ButtonComponent onClick={handleDelete} color={'red'}>
+        Delete
+      </ButtonComponent>
     </>
   ) : (
     <Navigate to={{ pathname: '/' }} />

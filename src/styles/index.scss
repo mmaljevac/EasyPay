@@ -63,7 +63,7 @@ nav {
   @include buttonStyle($blue, $lightBlue, white);
 }
 #transparent {
-  @include buttonStyle(rgba(255,255,255,0), $whiteHover, $black);
+  @include buttonStyle(rgba(255, 255, 255, 0), $whiteHover, $black);
 }
 
 .card-list {
@@ -91,20 +91,7 @@ nav {
     opacity: 0;
   }
   100% {
-    transform: translateY(0px);
-    opacity: 1;
-  }
-}
-
-.update {
-  animation-name: update;
-  animation-duration: 1s;
-}
-@keyframes update {
-  0% {
-    opacity: 0;
-  }
-  100% {
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -137,5 +124,61 @@ footer {
   transition: all 0.5s;
   &:hover {
     letter-spacing: 0.5px;
+  }
+}
+
+.mobile {
+  display: none;
+}
+
+@media (orientation: portrait) and (max-width: 767px) {
+  .desktop {
+    display: none !important;
+  }
+  .mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .pay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 28%;
+    img {
+      width: 4rem;
+      animation: shake 4s infinite;
+      animation-timing-function: ease;
+    }
+  }
+  .cardPay {
+    animation: float 4s infinite;
+    animation-timing-function: ease;
+    width: 94vw;
+    height: 50vw;
+    font-size: 6.8vw;
+    box-shadow: 0 10px 20px -10px $red;
+    pointer-events: none;
+  }
+  @keyframes float {
+    50% {
+      transform: translateY(-1.5rem);
+    }
+  }
+  @keyframes shake {
+    40% {
+      transform: rotate(0);
+    }
+    60% {
+      transform: rotate(10deg);
+    }
+    70% {
+      transform: rotate(-10deg);
+    }
+    80% {
+      transform: rotate(10deg);
+    }
+
   }
 }

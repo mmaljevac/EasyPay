@@ -127,11 +127,11 @@ nav button {
 }
 
 .card-item {
-  font-size: 20px;
   color: white;
   background: linear-gradient(to bottom left, #2a74e1, #dd4343);
   border-radius: 10px;
-  padding: 25px;
+  padding: 30px 25px;
+  font-size: 20px;
   width: 300px;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -150,11 +150,11 @@ nav button {
 }
 
 .expiring {
-  font-size: 20px;
   color: white;
   background: linear-gradient(to bottom left, #393e44, #dd4343);
   border-radius: 10px;
-  padding: 25px;
+  padding: 30px 25px;
+  font-size: 20px;
   width: 300px;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -173,11 +173,11 @@ nav button {
 }
 
 .expired {
-  font-size: 20px;
   color: white;
   background: linear-gradient(to bottom left, #55585c, #393e44);
   border-radius: 10px;
-  padding: 25px;
+  padding: 30px 25px;
+  font-size: 20px;
   width: 300px;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -208,7 +208,7 @@ nav button {
     opacity: 0;
   }
   100% {
-    transform: translateY(0px);
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -219,31 +219,7 @@ nav button {
     opacity: 0;
   }
   100% {
-    transform: translateY(0px);
-    opacity: 1;
-  }
-}
-.update {
-  -webkit-animation-name: update;
-          animation-name: update;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-}
-
-@-webkit-keyframes update {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes update {
-  0% {
-    opacity: 0;
-  }
-  100% {
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -275,4 +251,82 @@ footer {
 }
 footer:hover {
   letter-spacing: 0.5px;
+}
+
+.mobile {
+  display: none;
+}
+
+@media (orientation: portrait) and (max-width: 767px) {
+  .desktop {
+    display: none !important;
+  }
+  .mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .pay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 28%;
+  }
+  .pay img {
+    width: 4rem;
+    -webkit-animation: shake 4s infinite;
+            animation: shake 4s infinite;
+    -webkit-animation-timing-function: ease;
+            animation-timing-function: ease;
+  }
+  .cardPay {
+    -webkit-animation: float 4s infinite;
+            animation: float 4s infinite;
+    -webkit-animation-timing-function: ease;
+            animation-timing-function: ease;
+    width: 94vw;
+    height: 50vw;
+    font-size: 6.8vw;
+    box-shadow: 0 10px 20px -10px #dd4343;
+    pointer-events: none;
+  }
+  @-webkit-keyframes float {
+    50% {
+      transform: translateY(-1.5rem);
+    }
+  }
+  @keyframes float {
+    50% {
+      transform: translateY(-1.5rem);
+    }
+  }
+  @-webkit-keyframes shake {
+    40% {
+      transform: rotate(0);
+    }
+    60% {
+      transform: rotate(10deg);
+    }
+    70% {
+      transform: rotate(-10deg);
+    }
+    80% {
+      transform: rotate(10deg);
+    }
+  }
+  @keyframes shake {
+    40% {
+      transform: rotate(0);
+    }
+    60% {
+      transform: rotate(10deg);
+    }
+    70% {
+      transform: rotate(-10deg);
+    }
+    80% {
+      transform: rotate(10deg);
+    }
+  }
 }/*# sourceMappingURL=index.css.map */

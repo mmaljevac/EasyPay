@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
 import CardItem from './CardItem';
 import { db } from '../firebase';
 import { deleteDoc, doc } from 'firebase/firestore';
+import phone from '../img/phone.png';
 
 const CardDetail = () => {
   const { users, curUser, cards, getCards } = useContext(AppContext);
@@ -42,41 +43,52 @@ const CardDetail = () => {
       </ButtonComponent>
       {cardHolder ? (
         <>
-          {' '}
           <h1>{cardHolder.name}'s card</h1>
-          <CardItem card={card} hide={false} />
-          <section className="mt-3 appear">
-            <div>
-              <b>Card number: </b>
-              {card.cardNumber}
+          <div className="desktop">
+            <CardItem card={card} hide={false} />
+            <section className="mt-3 appear">
+              <div>
+                <b>Card number: </b>
+                {card.cardNumber}
+              </div>
+              <div>
+                <b>Card holder: </b>
+                {cardHolder.name} {cardHolder.surname}
+              </div>
+              <div>
+                <b>Expiration date: </b>
+                {card.expirationDate}
+              </div>
+              <div>
+                <b>CVV: </b>
+                {card.cvv}
+              </div>
+              <div>
+                <b>Balance: </b>
+                {balanceFormatter.format(card.balance)}
+              </div>
+            </section>
+            <ButtonComponent
+              onClick={() => navigate(`/update/${id}`)}
+              color={'blue'}
+              className="mt-3 me-3 appear"
+            >
+              Edit
+            </ButtonComponent>
+            <ButtonComponent onClick={handleDelete} color={'red'} className="mt-3 appear">
+              Delete
+            </ButtonComponent>
+          </div>
+
+          <div className="mobile">
+            <div className="pay appear">
+              <Link to={`/update/${id}`} className="card-list">
+                <CardItem card={card} hide={true} className="cardPay" />
+              </Link>
+              <img src={phone} alt="phone_icon" className="mt-2" />
+              <div className="mt-1 hold">Hold near reader</div>
             </div>
-            <div>
-              <b>Card holder: </b>
-              {cardHolder.name} {cardHolder.surname}
-            </div>
-            <div>
-              <b>Expiration date: </b>
-              {card.expirationDate}
-            </div>
-            <div>
-              <b>CVV: </b>
-              {card.cvv}
-            </div>
-            <div>
-              <b>Balance: </b>
-              {balanceFormatter.format(card.balance)}
-            </div>
-          </section>
-          <ButtonComponent
-            onClick={() => navigate(`/update/${id}`)}
-            color={'blue'}
-            className="mt-3 me-3 appear"
-          >
-            Edit
-          </ButtonComponent>
-          <ButtonComponent onClick={handleDelete} color={'red'} className="mt-3 appear">
-            Delete
-          </ButtonComponent>
+          </div>
         </>
       ) : (
         <h1>Loading...</h1>

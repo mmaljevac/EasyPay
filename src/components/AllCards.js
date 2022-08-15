@@ -9,7 +9,7 @@ const AllCards = () => {
 
   return curUser ? (
     <Container className="d-flex flex-column align-items-center">
-      {cards.length > 0 && (
+      {cards.length > 0 ? (
         <>
           <h1>Card List</h1>
           {cards.map(card => {
@@ -20,6 +20,8 @@ const AllCards = () => {
             );
           })}
         </>
+      ) : (
+        <h1>No cards</h1>
       )}
     </Container>
   ) : (

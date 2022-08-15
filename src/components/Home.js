@@ -9,6 +9,7 @@ const Home = () => {
   const { curUser, cards } = useContext(AppContext);
   const navigate = useNavigate();
 
+  // TODO useState, loading
   let cardsFiltered = '';
 
   if (curUser) {
