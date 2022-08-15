@@ -15,6 +15,7 @@ const Account = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [name, setName] = useState(curUser.name);
   const [surname, setSurname] = useState(curUser.surname);
+  const bcrypt = require('bcryptjs');
 
   const handleUpdateInfo = async e => {
     e.preventDefault();
@@ -31,11 +32,14 @@ const Account = () => {
   const handleChangePassword = async e => {
     e.preventDefault();
 
-    if (oldPassword === curUser.password) {
+    const validOldPassword = await bcrypt.compare(oldPassword, curUser.password);
+
+    if (validOldPassword) {
       if (oldPassword !== newPassword) {
         if (newPassword === confirmNewPassword) {
-          // TODO hash password
-          const updatedUser = { password: newPassword };
+          const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+          const updatedUser = { password: hashedNewPassword };
+          
           const userDoc = doc(db, 'users', curUser.id);
           await updateDoc(userDoc, updatedUser);
           getUsers();
@@ -49,7 +53,7 @@ const Account = () => {
         alert("New password can't be the same as the old one!");
       }
     } else {
-      alert('Wrong password!');
+      alert('Wrong current password entered!');
     }
   };
 

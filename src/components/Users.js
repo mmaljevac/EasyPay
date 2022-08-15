@@ -4,7 +4,6 @@ import ButtonComponent from './ButtonComponent';
 import { AppContext } from '../contexts/AppContext';
 import { deleteDoc, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Users = () => {

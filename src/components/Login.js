@@ -11,16 +11,18 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const bcrypt = require('bcryptjs');
 
-  const handleLogin = e => {
+  const handleLogin = async e => {
     e.preventDefault();
+    getUsers();
 
-    const userFound = users.find(u => u.email === email && u.password === password);
+    const user = users.find(u => u.email === email);
+    const validPassword = await bcrypt.compare(password, user.password);
 
-    if (userFound) {
-      setCurUser(userFound);
-      sessionStorage.setItem('curUser', JSON.stringify(userFound));
-      getUsers();
+    if (user && validPassword) {
+      setCurUser(user);
+      sessionStorage.setItem('curUser', JSON.stringify(user));
       navigate('/');
     } else {
       alert('Invalid login info!');

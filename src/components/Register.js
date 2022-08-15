@@ -18,16 +18,17 @@ const Register = () => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const permission = 'user';
+  const bcrypt = require('bcryptjs');
 
   const handleRegister = async e => {
     e.preventDefault();
-    setBtnDisabled(true);
-
-    // TODO hash password
-    const newUser = { email, password, name, surname, permission };
-
+    
     if (password === confirmPassword) {
       if (!users.map(u => u.email).includes(email)) {
+        setBtnDisabled(true);
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = { email, password: hashedPassword, name, surname, permission };
         await addDoc(usersCollectionRef, newUser);
         getUsers();
         
@@ -37,11 +38,9 @@ const Register = () => {
         }, '1000');
       } else {
         alert('Email address already taken!');
-        setBtnDisabled(false);
       }
     } else {
       alert('Passwords do not match!');
-      setBtnDisabled(false);
     }
   };
 
