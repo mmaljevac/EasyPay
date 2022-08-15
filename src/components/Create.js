@@ -9,8 +9,8 @@ const Create = () => {
   const { curUser, cardsCollectionRef, getCards } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const cardNumberRef = useRef();
-  const expirationDateRef = useRef();
+  const cardNumRef = useRef();
+  const expDateRef = useRef();
   const cvvRef = useRef();
   const balanceRef = useRef();
 
@@ -30,11 +30,26 @@ const Create = () => {
     setCardNumber(e.target.value);
   };
 
+  const unfocusCardNumber = () => {
+    if (/^[0-9]{16}$/.test(cardNumber)) {
+      const pasted = `${cardNumber.substring(0, 4)} ${cardNumber.substring(4, 8)} ${cardNumber.substring(8, 12)} ${cardNumber.substring(12, 16)}`
+      cardNumRef.current.value = pasted;
+      setCardNumber(pasted);
+    }
+  }
+
   const formatDateInput = e => {
     if (e.target.value.length === 2 && !e.target.value.includes('/') && e.key !== 'Backspace' && e.key !== '/') {
       e.target.value += '/';
     }
   };
+
+  const unfocusExpDate = () => {
+    if (/^[1-9]\/[0-9][0-9]$/.test(expirationDate)) {
+      expDateRef.current.value = '0' + expirationDate;
+      setExpirationDate('0' + expirationDate);
+    }
+  }
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -43,27 +58,27 @@ const Create = () => {
     setBtnDisabled(true);
     const month = Number(expirationDate.substring(0, 2));
 
-    if (!/^[0-9 ]{19}$/.test(cardNumber)) {
+    if (!/^[0-9 ]+$/.test(cardNumber)) {
       errors = true;
       alert('Card number can contain numbers only!');
-      cardNumberRef.current.focus();
+      cardNumRef.current.focus();
     } else if (!/[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}/.test(cardNumber)) {
       errors = true;
       alert('Card number should be formatted "XXXX XXXX XXXX XXXX"!');
-      cardNumberRef.current.focus();
-    } else if (!/^[0-9/]{5}$/.test(expirationDate)) {
+      cardNumRef.current.focus();
+    } else if (!/^[0-9/]+$/.test(expirationDate)) {
       errors = true;
       alert('Expiration date should contain numbers only!');
-      expirationDateRef.current.focus();
+      expDateRef.current.focus();
     } else if (!/[0-9][0-9]\/[0-9][0-9]/.test(expirationDate)) {
       errors = true;
       alert('Expiration date format should be MM/YY!');
-      expirationDateRef.current.focus();
+      expDateRef.current.focus();
     } else if (month > 12 || month < 1) {
       errors = true;
       alert(`Expiration month can't be ${month}!`);
-      expirationDateRef.current.focus();
-    } else if (!/^[0-9]{3}$/.test(cvv)) {
+      expDateRef.current.focus();
+    } else if (!/^[0-9]+$/.test(cvv)) {
       errors = true;
       alert(`CVV should contain numbers only!`);
       cvvRef.current.focus();
@@ -99,15 +114,15 @@ const Create = () => {
       <h1>Add a new card</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="cardNumber">
-          <Form.Label>Card Number</Form.Label> <br />
+          <Form.Label>Card Number</Form.Label>
           <Form.Control
             type="text"
-            ref={cardNumberRef}
+            ref={cardNumRef}
             placeholder="ex. 1111 2222 3333 4444"
-            minLength={19}
             maxLength={19}
             onKeyDown={formatCardNumber}
             onChange={e => setCardNumber(e.target.value)}
+            onBlur={unfocusCardNumber}
             required
           />
           <Form.Text className="text-muted">
@@ -118,12 +133,12 @@ const Create = () => {
           <Form.Label>Expiration Date (MM/YY)</Form.Label>
           <Form.Control
             type="text"
-            ref={expirationDateRef}
+            ref={expDateRef}
             placeholder="ex. 05/22"
-            minLength={5}
             maxLength={5}
             onKeyDown={formatDateInput}
             onChange={e => setExpirationDate(e.target.value)}
+            onBlur={unfocusExpDate}
             required
           />
         </Form.Group>
