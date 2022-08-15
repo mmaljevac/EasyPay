@@ -17,21 +17,20 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
-  const permission = 'user';
   const bcrypt = require('bcryptjs');
 
   const handleRegister = async e => {
     e.preventDefault();
-    
+
     if (password === confirmPassword) {
       if (!users.map(u => u.email).includes(email)) {
         setBtnDisabled(true);
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = { email, password: hashedPassword, name, surname, permission };
+        const newUser = { email, password: hashedPassword, name, surname, permission: 'user' };
         await addDoc(usersCollectionRef, newUser);
         getUsers();
-        
+
         setBtnText('✓ User created');
         setTimeout(() => {
           navigate(`/login`);

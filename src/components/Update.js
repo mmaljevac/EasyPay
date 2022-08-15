@@ -26,13 +26,13 @@ const Update = () => {
   const [btnDisabled, setBtnDisabled] = useState(false);
 
   useEffect(() => {
-    if (card.cardNumber && card.expirationDate && card.cvv && card.balance) {
+    if (card) {
       setCardNumber(card.cardNumber);
       setExpirationDate(card.expirationDate);
       setCvv(card.cvv);
       setBalance(card.balance);
     }
-  }, [card.cardNumber, card.expirationDate, card.cvv, card.balance]);
+  }, [card]);
 
   const formatCardNumber = e => {
     if ([4, 9, 14].includes(e.target.value.length) && e.key !== 'Backspace' && e.key !== ' ') {
@@ -117,7 +117,7 @@ const Update = () => {
     }
   };
 
-  return curUser && card ? (
+  return curUser ? (
     <>
       <ButtonComponent
         onClick={() => navigate(`/card/${id}`)}
