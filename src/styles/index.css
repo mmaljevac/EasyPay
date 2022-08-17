@@ -20,6 +20,10 @@ h1 {
   cursor: default;
 }
 
+p {
+  color: #393e44;
+}
+
 nav {
   z-index: 10;
   position: -webkit-sticky !important;
@@ -285,7 +289,7 @@ footer:hover {
             animation: float 4s infinite;
     -webkit-animation-timing-function: ease;
             animation-timing-function: ease;
-    width: 94vw;
+    width: 92vw;
     height: 50vw;
     font-size: 6.8vw;
     box-shadow: 0 10px 20px -10px #dd4343;
@@ -293,12 +297,12 @@ footer:hover {
   }
   @-webkit-keyframes float {
     50% {
-      transform: translateY(-1.5rem);
+      transform: translateY(-1.5rem) rotate(2deg);
     }
   }
   @keyframes float {
     50% {
-      transform: translateY(-1.5rem);
+      transform: translateY(-1.5rem) rotate(2deg);
     }
   }
   @-webkit-keyframes shake {

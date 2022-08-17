@@ -20,6 +20,10 @@ h1 {
   cursor: default;
 }
 
+p {
+  color: $black;
+}
+
 nav {
   z-index: 10;
   position: sticky !important;
@@ -155,7 +159,7 @@ footer {
   .cardPay {
     animation: float 4s infinite;
     animation-timing-function: ease;
-    width: 94vw;
+    width: 92vw;
     height: 50vw;
     font-size: 6.8vw;
     box-shadow: 0 10px 20px -10px $red;
@@ -163,7 +167,7 @@ footer {
   }
   @keyframes float {
     50% {
-      transform: translateY(-1.5rem);
+      transform: translateY(-1.5rem) rotate(2deg);
     }
   }
   @keyframes shake {

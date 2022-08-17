@@ -21,7 +21,7 @@ const Header = () => {
         <Navbar.Brand>
           <Link to="/">
             <img src={logo} alt="logo" />
-            <div style={{ fontWeight: 'bold' }}>Card App</div>
+            <div style={{ fontWeight: 'bold' }}>EasyPay</div>
           </Link>
         </Navbar.Brand>
         {curUser ? (

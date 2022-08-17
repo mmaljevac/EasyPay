@@ -29,13 +29,11 @@ function App() {
   const getUsers = async () => {
     const usersData = await getDocs(usersCollectionRef);
     setUsers(usersData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-    console.log('got users');
   };
 
   const getCards = async () => {
     const cardsData = await getDocs(cardsCollectionRef);
     setCards(cardsData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-    console.log('got cards');
   };
 
   // TODO useEffect called twice

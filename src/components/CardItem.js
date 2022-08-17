@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
-const CardItem = ({ card, hide, className }) => {
-  const { users } = useContext(AppContext);
+const CardItem = ({ card, hide, hideAll, className }) => {
+  const { users, curUser } = useContext(AppContext);
   const cardHolder = users.find(u => u.id === card.cardHolderId);
   const cardNumberHidden = '**** **** **** ' + card.cardNumber.substr(15, 19);
 
@@ -25,14 +25,26 @@ const CardItem = ({ card, hide, className }) => {
   return (
     <>
       <div
-        className={`card-item ${expiring === true && 'expiring'} ${expired && 'expired'} appear ${className}`}
+        className={`card-item ${expiring === true && 'expiring'} ${
+          expired && 'expired'
+        } appear ${className}`}
       >
-        {hide ? <div>{cardNumberHidden}</div> : <div>{card.cardNumber}</div>}
-        <div>
-          {card.expirationDate}
-          {expiring && ' (expiring soon)'}
-          {expired && ' (expired)'}
-        </div>
+        {hide ? (
+          <div>
+            {hideAll && card.cardHolderId !== curUser.id ? '**** **** **** ****' : cardNumberHidden}
+          </div>
+        ) : (
+          <div>{card.cardNumber}</div>
+        )}
+        {!hideAll || card.cardHolderId === curUser.id ? (
+          <div>
+            {card.expirationDate}
+            {expiring && ' (expiring soon)'}
+            {expired && ' (expired)'}
+          </div>
+        ) : (
+          <div></div>
+        )}
         <div>
           {cardHolder.name} {cardHolder.surname}
         </div>

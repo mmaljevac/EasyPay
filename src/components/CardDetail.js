@@ -44,9 +44,9 @@ const CardDetail = () => {
       {cardHolder ? (
         <>
           <h1>{cardHolder.name}'s card</h1>
-          <div className="desktop">
+          <div className="desktop appear">
             <CardItem card={card} hide={false} />
-            <section className="mt-3 appear">
+            <section className="mt-3">
               <div>
                 <b>Card number: </b>
                 {card.cardNumber}
@@ -71,13 +71,15 @@ const CardDetail = () => {
             <ButtonComponent
               onClick={() => navigate(`/update/${id}`)}
               color={'blue'}
-              className="mt-3 me-3 appear"
+              className="mt-3 me-3"
             >
               Edit
             </ButtonComponent>
-            <ButtonComponent onClick={handleDelete} color={'red'} className="mt-3 appear">
+            <ButtonComponent onClick={handleDelete} color={'red'} className="mt-3">
               Delete
             </ButtonComponent>
+            <hr />
+            <p>Open EasyPay on your phone to use the pay function!</p>
           </div>
 
           <div className="mobile">

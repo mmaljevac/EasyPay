@@ -134,7 +134,7 @@ const Account = () => {
             required
           />
         </Form.Group>
-        <ButtonComponent type="submit">Update</ButtonComponent>
+        <ButtonComponent type="submit">Change</ButtonComponent>
       </Form>
       <hr />
       <h1>Delete account</h1>

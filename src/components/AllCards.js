@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Container } from 'react-bootstrap';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import CardItem from './CardItem';
 
@@ -14,9 +14,7 @@ const AllCards = () => {
           <h1>Card List</h1>
           {cards.map(card => {
             return (
-              <Link to={`/card/${card.id}`} key={card.id} className="card-list">
-                <CardItem card={card} hide={true} />
-              </Link>
+              <CardItem card={card} hide={true} hideAll={true} className="mt-4" />
             );
           })}
         </>
