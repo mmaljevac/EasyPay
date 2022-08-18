@@ -26,6 +26,8 @@ const Account = () => {
     getUsers();
 
     alert('User info updated, please log in again!');
+    setCurUser(null);
+    sessionStorage.removeItem('curUser');
     navigate(`/login`);
   };
 
@@ -39,12 +41,14 @@ const Account = () => {
         if (newPassword === confirmNewPassword) {
           const hashedNewPassword = await bcrypt.hash(newPassword, 10);
           const updatedUser = { password: hashedNewPassword };
-          
+
           const userDoc = doc(db, 'users', curUser.id);
           await updateDoc(userDoc, updatedUser);
           getUsers();
 
           alert('Password updated, please log in again!');
+          setCurUser(null);
+          sessionStorage.removeItem('curUser');
           navigate(`/login`);
         } else {
           alert('New and confirmed passwords do not match!');
