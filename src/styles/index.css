@@ -280,7 +280,7 @@ footer:hover {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 28%;
+    top: 25%;
   }
   .pay img {
     width: 4rem;
@@ -301,13 +301,25 @@ footer:hover {
     pointer-events: none;
   }
   @-webkit-keyframes float {
+    0% {
+      transform: translateY(0) rotate(0);
+    }
     50% {
       transform: translateY(-1.5rem) rotate(2deg);
     }
+    100% {
+      transform: translateY(0) rotate(0);
+    }
   }
   @keyframes float {
+    0% {
+      transform: translateY(0) rotate(0);
+    }
     50% {
       transform: translateY(-1.5rem) rotate(2deg);
+    }
+    100% {
+      transform: translateY(0) rotate(0);
     }
   }
   @-webkit-keyframes shake {

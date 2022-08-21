@@ -41,7 +41,7 @@ const CardItem = ({ card, hide, hideAll, className }) => {
             ) : (
               <>
                 {cardNumberHidden}
-                {className !== 'cardPay' && <aside>{balanceFormatter.format(card.balance)}</aside>}
+                <aside>{balanceFormatter.format(card.balance)}</aside>
               </>
             )}
           </div>

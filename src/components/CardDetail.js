@@ -4,8 +4,9 @@ import { AppContext } from '../contexts/AppContext';
 import ButtonComponent from './ButtonComponent';
 import CardItem from './CardItem';
 import { db } from '../firebase';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import phone from '../img/phone.png';
+import { useState } from 'react';
 
 const CardDetail = () => {
   const { users, curUser, cards, getCards } = useContext(AppContext);
@@ -13,6 +14,9 @@ const CardDetail = () => {
   const card = cards.find(c => c.id === id);
   const cardHolder = users.find(u => u.id === card.cardHolderId);
   const navigate = useNavigate();
+
+  const [payText, setPayText] = useState('Pay €10');
+  const [payDisabled, setPayDisabled] = useState(false);
 
   const handleBack = () => {
     if (card.cardHolderId === curUser.id) {
@@ -28,6 +32,39 @@ const CardDetail = () => {
       await deleteDoc(cardDoc);
       getCards();
       navigate('/');
+    }
+  };
+
+  const handlePay = async () => {
+    let expired = false;
+    const today = new Date();
+    const todayTime = today.getTime();
+    const cardExDate = new Date(
+      `20${card.expirationDate.substr(3, 5)}-${card.expirationDate.substr(0, 2)}-01`
+    );
+    const cardExTime = cardExDate.getTime();
+
+    if (cardExTime < todayTime) {
+      expired = true;
+    }
+
+    if (!expired) {
+      if (card.balance >= 10) {
+        setPayDisabled(true);
+        const cardDoc = doc(db, 'cards', id);
+        await updateDoc(cardDoc, { balance: card.balance - 10 });
+        getCards();
+  
+        setPayText('Paid!');
+        setTimeout(() => {
+          setPayText('Pay €10');
+          setPayDisabled(false);
+        }, 2000);
+      } else {
+        alert('Insufficient funds!');
+      }
+    } else {
+      alert('Card expired!');
     }
   };
 
@@ -95,8 +132,11 @@ const CardDetail = () => {
               <Link to={`/update/${id}`} className="card-list">
                 <CardItem card={card} hide={true} className="cardPay" />
               </Link>
-              <img src={phone} alt="phone_icon" className="mt-2" />
+              <img src={phone} alt="phone_icon" className="mt-1" />
               <div className="mt-1 hold">Hold near reader</div>
+              <ButtonComponent onClick={handlePay} className="mt-3" disabled={payDisabled}>
+                {payText}
+              </ButtonComponent>
             </div>
           </div>
         </>
