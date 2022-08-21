@@ -77,6 +77,10 @@ const Update = () => {
       errors = true;
       alert('Card number should be formatted "XXXX XXXX XXXX XXXX"!');
       cardNumRef.current.focus();
+    } else if (cards.map(c => c.cardNumber).includes(cardNumber) && cardNumber !== card.cardNumber) {
+      errors = true;
+      alert('Card already exists with that card number!');
+      cardNumRef.current.focus();
     } else if (!/^[0-9/]+$/.test(expirationDate)) {
       errors = true;
       alert('Expiration date should contain numbers only!');
@@ -189,7 +193,7 @@ const Update = () => {
             ref={balanceRef}
             defaultValue={balance}
             step="any"
-            max="1000000000"
+            max="1000000"
             placeholder="ex. 1234.56"
             onChange={e => setBalance(e.target.value)}
             required

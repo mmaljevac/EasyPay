@@ -227,6 +227,11 @@ nav button {
     opacity: 1;
   }
 }
+div aside {
+  float: right;
+  font-size: medium;
+}
+
 section div {
   color: #393e44;
   font-size: 17px;

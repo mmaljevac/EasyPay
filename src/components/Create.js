@@ -6,7 +6,7 @@ import { addDoc } from 'firebase/firestore';
 import { Form } from 'react-bootstrap';
 
 const Create = () => {
-  const { curUser, cardsCollectionRef, getCards } = useContext(AppContext);
+  const { curUser, cards, cardsCollectionRef, getCards } = useContext(AppContext);
   const navigate = useNavigate();
 
   const cardNumRef = useRef();
@@ -65,6 +65,10 @@ const Create = () => {
     } else if (!/[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}/.test(cardNumber)) {
       errors = true;
       alert('Card number should be formatted "XXXX XXXX XXXX XXXX"!');
+      cardNumRef.current.focus();
+    } else if (cards.map(c => c.cardNumber).includes(cardNumber)) {
+      errors = true;
+      alert('Card already exists with that card number!');
       cardNumRef.current.focus();
     } else if (!/^[0-9/]+$/.test(expirationDate)) {
       errors = true;
@@ -160,7 +164,7 @@ const Create = () => {
             type="number"
             ref={balanceRef}
             step="any"
-            max="1000000000"
+            max="1000000"
             placeholder="ex. 1234.56"
             onChange={e => setBalance(e.target.value)}
             required

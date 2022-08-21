@@ -4,7 +4,7 @@ import { AppContext } from '../contexts/AppContext';
 const CardItem = ({ card, hide, hideAll, className }) => {
   const { users, curUser } = useContext(AppContext);
   const cardHolder = users.find(u => u.id === card.cardHolderId);
-  const cardNumberHidden = '**** **** **** ' + card.cardNumber.substr(15, 19);
+  const cardNumberHidden = '**** ' + card.cardNumber.substr(15, 19);
 
   let expiring = false;
   let expired = false;
@@ -22,6 +22,11 @@ const CardItem = ({ card, hide, hideAll, className }) => {
     expiring = false;
   }
 
+  const balanceFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'EUR',
+  });
+
   return (
     <>
       <div
@@ -31,7 +36,14 @@ const CardItem = ({ card, hide, hideAll, className }) => {
       >
         {hide ? (
           <div>
-            {hideAll && card.cardHolderId !== curUser.id ? '**** **** **** ****' : cardNumberHidden}
+            {hideAll && card.cardHolderId !== curUser.id ? (
+              '**** **** **** ****'
+            ) : (
+              <>
+                {cardNumberHidden}
+                {className !== 'cardPay' && <aside>{balanceFormatter.format(card.balance)}</aside>}
+              </>
+            )}
           </div>
         ) : (
           <div>{card.cardNumber}</div>
