@@ -9,19 +9,35 @@ const Create = () => {
   const { curUser, cards, cardsCollectionRef, getCards } = useContext(AppContext);
   const navigate = useNavigate();
 
+  const ibanRef = useRef();
+  const cardTypeRef = useRef();
   const cardNumRef = useRef();
   const expDateRef = useRef();
   const cvvRef = useRef();
   const balanceRef = useRef();
 
   const cardHolderId = curUser.id;
+  const [iban, setIban] = useState('');
+  const [cardType, setCardType] = useState('select');
   const [cardNumber, setCardNumber] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [balance, setBalance] = useState('');
-  
+
   const [btnText, setBtnText] = useState('Add');
   const [btnDisabled, setBtnDisabled] = useState(false);
+
+  const unfocusIban = () => {
+    if (/^[A-Za-z]{2}[0-9 ]+$/.test(iban)) {
+      ibanRef.current.value = ibanRef.current.value.split(' ').join('');
+      ibanRef.current.value = [...ibanRef.current.value].map((x, i) => (i % 4 === 0 ? ' ' + x : x)).join('').trim();
+  
+      const upperCaseLetters = ibanRef.current.value.substring(0, 2).toUpperCase();
+      ibanRef.current.value = upperCaseLetters + ibanRef.current.value.substring(2);
+  
+      setIban(ibanRef.current.value);
+    }
+  };
 
   const formatCardNumber = e => {
     if ([4, 9, 14].includes(e.target.value.length) && e.key !== 'Backspace' && e.key !== ' ') {
@@ -32,14 +48,22 @@ const Create = () => {
 
   const unfocusCardNumber = () => {
     if (/^[0-9]{16}$/.test(cardNumber)) {
-      const pasted = `${cardNumber.substring(0, 4)} ${cardNumber.substring(4, 8)} ${cardNumber.substring(8, 12)} ${cardNumber.substring(12, 16)}`
+      const pasted = `${cardNumber.substring(0, 4)} ${cardNumber.substring(
+        4,
+        8
+      )} ${cardNumber.substring(8, 12)} ${cardNumber.substring(12, 16)}`;
       cardNumRef.current.value = pasted;
       setCardNumber(pasted);
     }
-  }
+  };
 
   const formatDateInput = e => {
-    if (e.target.value.length === 2 && !e.target.value.includes('/') && e.key !== 'Backspace' && e.key !== '/') {
+    if (
+      e.target.value.length === 2 &&
+      !e.target.value.includes('/') &&
+      e.key !== 'Backspace' &&
+      e.key !== '/'
+    ) {
       e.target.value += '/';
     }
   };
@@ -49,7 +73,7 @@ const Create = () => {
       expDateRef.current.value = '0' + expirationDate;
       setExpirationDate('0' + expirationDate);
     }
-  }
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -58,7 +82,17 @@ const Create = () => {
     setBtnDisabled(true);
     const month = Number(expirationDate.substring(0, 2));
 
-    if (!/^[0-9 ]+$/.test(cardNumber)) {
+    if (!/^[A-Za-z]{2}[0-9 ]+$/.test(iban)) {
+      errors = true;
+      alert(
+        'Bank account number should consist of 2 letters and numbers only! (ex. HR12 3456 7890 1234 5678 9)'
+      );
+      ibanRef.current.focus();
+    } else if (cardType === 'select') {
+      errors = true;
+      alert('Select the card type!');
+      cardTypeRef.current.focus();
+    } else if (!/^[0-9 ]+$/.test(cardNumber)) {
       errors = true;
       alert('Card number can contain numbers only!');
       cardNumRef.current.focus();
@@ -91,6 +125,8 @@ const Create = () => {
     if (errors === false) {
       const newCard = {
         cardHolderId,
+        iban,
+        cardType,
         cardNumber,
         expirationDate,
         cvv,
@@ -117,6 +153,38 @@ const Create = () => {
       </ButtonComponent>
       <h1>Add a new card</h1>
       <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="iban">
+          <Form.Label>Bank Account (IBAN)</Form.Label>
+          <Form.Control
+            type="text"
+            ref={ibanRef}
+            placeholder="ex. HR12 3456 7890 1234 5678 9"
+            minLength={14}
+            maxLength={34}
+            onChange={e => setIban(e.target.value)}
+            onBlur={unfocusIban}
+            required
+          />
+          <Form.Text className="text-muted">
+            You don't have to input spaces, it will format automatically.
+          </Form.Text>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Card Type</Form.Label>
+          <Form.Select
+            className="mb-3"
+            ref={cardTypeRef}
+            value={cardType}
+            onChange={e => setCardType(e.target.value)}
+            required
+          >
+            <option value="select" disabled>
+              Select card type
+            </option>
+            <option value="Credit">Credit</option>
+            <option value="Debit">Debit</option>
+          </Form.Select>
+        </Form.Group>
         <Form.Group className="mb-3" controlId="cardNumber">
           <Form.Label>Card Number</Form.Label>
           <Form.Control
@@ -129,9 +197,6 @@ const Create = () => {
             onBlur={unfocusCardNumber}
             required
           />
-          <Form.Text className="text-muted">
-            You don't have to input spaces, it will format automatically.
-          </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="expirationDate">
           <Form.Label>Expiration Date (MM/YY)</Form.Label>

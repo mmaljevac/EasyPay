@@ -48,6 +48,14 @@ const CardDetail = () => {
             <CardItem card={card} hide={false} />
             <section className="mt-3">
               <div>
+                <b>Bank account: </b>
+                {card.iban}
+              </div>
+              <div>
+                <b>Card type: </b>
+                {card.cardType}
+              </div>
+              <div>
                 <b>Card number: </b>
                 {card.cardNumber}
               </div>
