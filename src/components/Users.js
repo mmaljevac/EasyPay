@@ -38,9 +38,7 @@ const Users = () => {
       <Table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Email</th>
+            <th>User</th>
             <th></th>
             <th></th>
           </tr>
@@ -49,9 +47,7 @@ const Users = () => {
           {users.map(user => {
             return (
               <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.surname}</td>
-                <td>{user.email}</td>
+                <td>{user.name} {user.surname}<br />({user.email})</td>
                 <td>
                   <ButtonComponent
                     onClick={() => handleAdmin(user)}

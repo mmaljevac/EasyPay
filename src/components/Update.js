@@ -229,9 +229,6 @@ const Update = () => {
             onBlur={unfocusCardNumber}
             required
           />
-          <Form.Text className="text-muted">
-            You don't have to input spaces, it will format automatically.
-          </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3" controlId="expirationDate">
           <Form.Label>Expiration Date (MM/YY)</Form.Label>

@@ -14,7 +14,7 @@ const AllCards = () => {
           <h1>Card List</h1>
           {cards.map(card => {
             return (
-              <CardItem card={card} hide={true} hideAll={true} className="mt-4" />
+              <CardItem card={card} hide={true} hideAll={true} className="mt-4" key={card.id} />
             );
           })}
         </>
