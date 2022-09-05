@@ -258,7 +258,7 @@ const Update = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="balance">
-          <Form.Label>Balance</Form.Label>
+          <Form.Label>Balance (€)</Form.Label>
           <Form.Control
             type="number"
             ref={balanceRef}

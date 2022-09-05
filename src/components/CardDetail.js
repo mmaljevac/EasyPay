@@ -124,7 +124,7 @@ const CardDetail = () => {
               Delete
             </ButtonComponent>
             <hr />
-            <p>Open EasyPay on your phone to use the pay function!</p>
+            <p>Open EasyPay on your phone in portrait mode to use the pay function!</p>
           </div>
 
           <div className="mobile">
