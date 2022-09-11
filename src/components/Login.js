@@ -18,7 +18,7 @@ const Login = () => {
     getUsers();
 
     const user = users.find(u => u.email === email);
-    
+
     if (user) {
       const validPassword = await bcrypt.compare(password, user.password);
       if (validPassword) {

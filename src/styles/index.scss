@@ -76,13 +76,13 @@ nav {
 }
 
 .card-item {
-  @include cardStyle($blue, $lightBlue, $red, $lightRed);
+  @include cardStyle($red, $lightRed, $blue, $lightBlue);
 }
 .expiring {
-  @include cardStyle($black, $lightBlack, $red, $lightRed);
+  @include cardStyle($red, $lightRed, $black, $lightBlack);
 }
 .expired {
-  @include cardStyle($lightBlack, $lightBlack, $black, $lightBlack);
+  @include cardStyle($black, $lightBlack, $lightBlack, $lightBlack);
 }
 
 .appear {

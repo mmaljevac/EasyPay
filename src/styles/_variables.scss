@@ -38,7 +38,7 @@ $whiteHover: rgba(0, 0, 0, 0.05);
 
 @mixin cardStyle($primary, $primary2, $secondary, $secondary2) {
   color: white;
-  background: linear-gradient(to bottom left, $primary, $secondary);
+  background: linear-gradient(to top right, $primary, $secondary);
   border-radius: 10px;
   padding: 30px 25px;
   font-size: 20px;
@@ -47,11 +47,11 @@ $whiteHover: rgba(0, 0, 0, 0.05);
   transition: all 0.1s ease-in-out;
   &:hover {
     transform: translateY(-3px);
-    background: linear-gradient(to bottom left, $primary2, $secondary);
+    background: linear-gradient(to top right, $primary2, $secondary);
     box-shadow: 0 8px 20px -10px rgba($color: $secondary, $alpha: 0.8);
   }
   &:active {
     transform: translateY(0);
-    background: linear-gradient(to bottom left, $primary2, $secondary2);
+    background: linear-gradient(to top right, $primary2, $secondary2);
   }
 }

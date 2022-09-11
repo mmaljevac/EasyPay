@@ -60,7 +60,8 @@ const Account = () => {
       alert('Wrong current password entered!');
     }
   };
-
+// brisanje kartica
+// brisanje korisničkog računa
   const handleDeleteAcc = async () => {
     if (window.confirm('Are you sure you want to delete your account and all your cards?')) {
       await cards.filter(c => c.cardHolderId === curUser.id && deleteDoc(doc(db, 'cards', c.id)));

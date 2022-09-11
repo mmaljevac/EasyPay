@@ -132,7 +132,7 @@ nav button {
 
 .card-item {
   color: white;
-  background: linear-gradient(to bottom left, #2a74e1, #dd4343);
+  background: linear-gradient(to top right, #dd4343, #2a74e1);
   border-radius: 10px;
   padding: 30px 25px;
   font-size: 20px;
@@ -145,17 +145,17 @@ nav button {
 }
 .card-item:hover {
   transform: translateY(-3px);
-  background: linear-gradient(to bottom left, #4b87e0, #dd4343);
-  box-shadow: 0 8px 20px -10px rgba(221, 67, 67, 0.8);
+  background: linear-gradient(to top right, #dd6262, #2a74e1);
+  box-shadow: 0 8px 20px -10px rgba(42, 116, 225, 0.8);
 }
 .card-item:active {
   transform: translateY(0);
-  background: linear-gradient(to bottom left, #4b87e0, #dd6262);
+  background: linear-gradient(to top right, #dd6262, #4b87e0);
 }
 
 .expiring {
   color: white;
-  background: linear-gradient(to bottom left, #393e44, #dd4343);
+  background: linear-gradient(to top right, #dd4343, #393e44);
   border-radius: 10px;
   padding: 30px 25px;
   font-size: 20px;
@@ -168,17 +168,17 @@ nav button {
 }
 .expiring:hover {
   transform: translateY(-3px);
-  background: linear-gradient(to bottom left, #55585c, #dd4343);
-  box-shadow: 0 8px 20px -10px rgba(221, 67, 67, 0.8);
+  background: linear-gradient(to top right, #dd6262, #393e44);
+  box-shadow: 0 8px 20px -10px rgba(57, 62, 68, 0.8);
 }
 .expiring:active {
   transform: translateY(0);
-  background: linear-gradient(to bottom left, #55585c, #dd6262);
+  background: linear-gradient(to top right, #dd6262, #55585c);
 }
 
 .expired {
   color: white;
-  background: linear-gradient(to bottom left, #55585c, #393e44);
+  background: linear-gradient(to top right, #393e44, #55585c);
   border-radius: 10px;
   padding: 30px 25px;
   font-size: 20px;
@@ -191,12 +191,12 @@ nav button {
 }
 .expired:hover {
   transform: translateY(-3px);
-  background: linear-gradient(to bottom left, #55585c, #393e44);
-  box-shadow: 0 8px 20px -10px rgba(57, 62, 68, 0.8);
+  background: linear-gradient(to top right, #55585c, #55585c);
+  box-shadow: 0 8px 20px -10px rgba(85, 88, 92, 0.8);
 }
 .expired:active {
   transform: translateY(0);
-  background: linear-gradient(to bottom left, #55585c, #55585c);
+  background: linear-gradient(to top right, #55585c, #55585c);
 }
 
 .appear {

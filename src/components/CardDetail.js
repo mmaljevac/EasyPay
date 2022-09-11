@@ -35,7 +35,7 @@ const CardDetail = () => {
     }
   };
 
-  const handlePay = async () => {
+  const handlePay = async price => {
     let expired = false;
     const today = new Date();
     const todayTime = today.getTime();
@@ -52,9 +52,9 @@ const CardDetail = () => {
       if (card.balance >= 10) {
         setPayDisabled(true);
         const cardDoc = doc(db, 'cards', id);
-        await updateDoc(cardDoc, { balance: card.balance - 10 });
+        await updateDoc(cardDoc, { balance: card.balance - price });
         getCards();
-  
+
         setPayText('Paid!');
         setTimeout(() => {
           setPayText('Pay €10');
@@ -134,7 +134,11 @@ const CardDetail = () => {
               </Link>
               <img src={phone} alt="phone_icon" className="mt-1" />
               <div className="mt-1 hold">Hold near reader</div>
-              <ButtonComponent onClick={handlePay} className="mt-3" disabled={payDisabled}>
+              <ButtonComponent
+                onClick={() => handlePay(10)}
+                className="mt-3"
+                disabled={payDisabled}
+              >
                 {payText}
               </ButtonComponent>
             </div>

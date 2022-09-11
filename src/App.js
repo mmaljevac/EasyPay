@@ -36,19 +36,9 @@ function App() {
     setCards(cardsData.docs.map(doc => ({ ...doc.data(), id: doc.id })));
   };
 
-  // TODO useEffect called twice
   useEffect(() => {
     getUsers();
     getCards();
-
-    // TODO log out if user deleted
-    // if (curUser && users && !users.includes(curUser)) {
-    //   console.log('USER DELETED');
-    //   console.log('curUser: ', curUser);
-    //   console.log('users: ', users);
-    //   setCurUser(null);
-    //   sessionStorage.removeItem('curUser');
-    // }
   }, []);
 
   return (
