@@ -40,6 +40,9 @@ const Header = () => {
                   </Nav.Link>
                 </>
               )}
+              <Nav.Link onClick={() => navigate('/')} className="text-dark">
+                Home
+              </Nav.Link>
               <Nav.Link onClick={() => navigate('/account')} className="text-dark">
                 Account
               </Nav.Link>
